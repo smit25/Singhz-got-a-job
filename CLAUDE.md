@@ -52,6 +52,7 @@ AI-powered job search automation built on Claude Code: pipeline tracking, offer 
 |------|----------|
 | `data/applications.md` | Application tracker |
 | `data/pipeline.md` | Inbox of pending URLs |
+| `data/apply-queue.md` | Approved jobs waiting for batch-apply (Queued → Form Extracted → Answers Ready → Applied) |
 | `data/scan-history.tsv` | Scanner dedup history |
 | `portals.yml` | Query and company config |
 | `templates/cv-template.html` | HTML template for CVs |
@@ -259,6 +260,8 @@ Default modes are in `modes/` (English). Additional language-specific modes are 
 | Batch processes offers | `batch` |
 | Asks about rejection patterns or wants to improve targeting | `patterns` |
 | Asks about follow-ups or application cadence | `followup` |
+| Wants to review evaluated jobs and pick which to apply to | `approve` |
+| Wants to fill and submit multiple applications in one session | `batch-apply` |
 
 ### CV Source of Truth
 
