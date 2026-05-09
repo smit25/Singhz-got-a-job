@@ -1,0 +1,421 @@
+# Portal Scanner Configuration
+# Used by /career-ops scan to discover new job listings automatically.
+#
+# This file is PORTAL-FIRST: it searches across job boards and ATS platforms
+# broadly — not by company. Add the role keywords that match YOUR target roles
+# in title_filter.positive, and the scanner will find matching jobs everywhere.
+#
+# HOW TO CUSTOMIZE:
+#   1. Edit title_filter.positive — add keywords matching YOUR target roles
+#   2. Edit title_filter.negative — exclude irrelevant roles
+#   3. Toggle search_queries on/off with enabled: true/false
+#   4. Add new search_queries for any portal not already covered
+
+# ─────────────────────────────────────────────────────────────────────────────
+# TITLE FILTER
+# At least 1 positive must match AND 0 negatives must match (case-insensitive).
+# These keywords filter job titles returned by every search query below.
+# ─────────────────────────────────────────────────────────────────────────────
+
+title_filter:
+  positive:
+    # Saumya's target roles — ML Engineer, Data Scientist, AI/Applied Scientist
+
+    # Core ML / AI roles
+    - "Machine Learning Engineer"
+    - "ML Engineer"
+    - "Data Scientist"
+    - "AI Engineer"
+    - "Applied Scientist"
+    - "Research Scientist"
+    - "ML Research"
+    - "Applied ML"
+    - "Applied AI"
+
+    # Generative AI / LLM
+    - "LLM"
+    - "Generative AI"
+    - "GenAI"
+    - "NLP"
+    - "Foundation Model"
+
+    # Specific skill matches from CV
+    - "Synthetic Data"
+    - "MLOps"
+    - "Deep Learning"
+    - "Computer Vision"
+    - "RAG"
+    - "AI Research"
+
+    # Broader catches
+    - "Machine Learning"
+    - "Artificial Intelligence"
+
+  negative:
+    # Exclude roles outside her target
+    - "Intern"
+    - "Internship"
+    - "Frontend"
+    - "iOS"
+    - "Android"
+    - "PHP"
+    - "Ruby"
+    - "Embedded"
+    - "Firmware"
+    - "FPGA"
+    - "Blockchain"
+    - "Web3"
+    - "Crypto"
+    - "SAP "
+    - "Mainframe"
+    - "COBOL"
+    - "Salesforce Admin"
+    - "DevOps"
+    - "Site Reliability"
+    - "SRE"
+
+  seniority_boost:
+    # Preferred seniority signals (not required to match)
+    - "Senior"
+    - "Staff"
+    - "Lead"
+    - "Principal"
+    - "Founding"
+    - "New Grad"
+    - "Entry Level"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SEARCH QUERIES
+# Each entry runs a WebSearch. Use site: to target a specific portal.
+# The scanner extracts job title, URL, and company from the results.
+#
+# CUSTOMIZE: Replace role keywords in each query with YOUR target roles.
+#   The placeholders below (e.g. "Software Engineer" OR "Data Scientist") show
+#   the pattern — swap in your own from title_filter.positive.
+# ─────────────────────────────────────────────────────────────────────────────
+
+search_queries:
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # ATS PLATFORMS — broad search across all companies using each ATS
+  # These hit the entire platform, not specific companies.
+  # ───────────────────────────────────────────────────────────────────────────
+
+  # Greenhouse — one of the most common ATS platforms
+  - name: Greenhouse — Engineering roles
+    query: 'site:boards.greenhouse.io OR site:job-boards.greenhouse.io "Software Engineer" OR "Backend Engineer" OR "Full Stack" remote -junior -intern'
+    enabled: true
+
+  - name: Greenhouse — AI / ML roles
+    query: 'site:boards.greenhouse.io OR site:job-boards.greenhouse.io "AI Engineer" OR "Machine Learning" OR "Data Scientist" OR "LLM" remote'
+    enabled: true
+
+  - name: Greenhouse — Platform / Infra
+    query: 'site:boards.greenhouse.io OR site:job-boards.greenhouse.io "Platform Engineer" OR "Infrastructure" OR "SRE" OR "DevOps" remote senior OR staff'
+    enabled: true
+
+  - name: Greenhouse — Solutions / GTM Engineering
+    query: 'site:boards.greenhouse.io OR site:job-boards.greenhouse.io "Solutions Architect" OR "Solutions Engineer" OR "Forward Deployed" OR "Customer Engineer" remote'
+    enabled: true
+
+  - name: Greenhouse — Product Manager
+    query: 'site:boards.greenhouse.io OR site:job-boards.greenhouse.io "Product Manager" "AI" OR "Platform" OR "Technical" remote senior OR lead'
+    enabled: true
+
+  # Ashby — popular ATS for startups and scale-ups
+  - name: Ashby — Engineering roles
+    query: 'site:jobs.ashbyhq.com "Software Engineer" OR "Backend Engineer" OR "Full Stack Engineer" remote -junior -intern'
+    enabled: true
+
+  - name: Ashby — AI / ML roles
+    query: 'site:jobs.ashbyhq.com "AI Engineer" OR "Machine Learning" OR "LLM" OR "Applied AI" OR "Data Scientist" remote'
+    enabled: true
+
+  - name: Ashby — Platform / Infra
+    query: 'site:jobs.ashbyhq.com "Platform Engineer" OR "Infrastructure" OR "DevOps" OR "SRE" remote senior OR staff'
+    enabled: true
+
+  - name: Ashby — Solutions / GTM Engineering
+    query: 'site:jobs.ashbyhq.com "Solutions Architect" OR "Solutions Engineer" OR "Forward Deployed" OR "Customer Engineer" OR "GTM Engineer" remote'
+    enabled: true
+
+  - name: Ashby — Product Manager
+    query: 'site:jobs.ashbyhq.com "Product Manager" "AI" OR "Platform" OR "Technical" remote senior'
+    enabled: true
+
+  # Lever — widely used ATS, many mid-to-large startups
+  - name: Lever — Engineering roles
+    query: 'site:jobs.lever.co "Software Engineer" OR "Backend Engineer" OR "Full Stack" remote senior OR staff -junior -intern'
+    enabled: true
+
+  - name: Lever — AI / ML roles
+    query: 'site:jobs.lever.co "AI Engineer" OR "Machine Learning Engineer" OR "Data Scientist" OR "LLM" remote'
+    enabled: true
+
+  - name: Lever — Solutions / Platform
+    query: 'site:jobs.lever.co "Solutions Architect" OR "Platform Engineer" OR "Forward Deployed" OR "DevOps" remote'
+    enabled: true
+
+  # Workable — common for European and SMB companies
+  - name: Workable — Engineering / AI roles
+    query: 'site:apply.workable.com "Software Engineer" OR "AI Engineer" OR "Data Scientist" OR "Machine Learning" remote -junior'
+    enabled: true
+
+  - name: Workable — Solutions / Platform
+    query: 'site:apply.workable.com "Solutions Architect" OR "Platform Engineer" OR "Infrastructure" OR "DevOps" remote'
+    enabled: true
+
+  # Workday — large enterprises (FAANG, Fortune 500)
+  - name: Workday — Engineering / AI roles
+    query: 'site:myworkdayjobs.com "Software Engineer" OR "Machine Learning Engineer" OR "AI Engineer" OR "Data Scientist" remote OR "San Francisco" OR "New York"'
+    enabled: true
+
+  - name: Workday — Platform / Infra
+    query: 'site:myworkdayjobs.com "Platform Engineer" OR "Infrastructure Engineer" OR "SRE" OR "DevOps" remote OR "San Francisco"'
+    enabled: true
+
+  # SmartRecruiters — mid-market and enterprise
+  - name: SmartRecruiters — Engineering / AI
+    query: 'site:jobs.smartrecruiters.com "Software Engineer" OR "AI Engineer" OR "Machine Learning" OR "Data Scientist" remote -junior'
+    enabled: true
+
+  # Rippling — growing ATS for tech companies
+  - name: Rippling Jobs — Engineering / AI
+    query: 'site:jobs.rippling.com "Software Engineer" OR "AI" OR "Machine Learning" OR "Data Scientist" remote'
+    enabled: true
+
+  # BambooHR — common for SMBs
+  - name: BambooHR — Engineering / AI
+    query: 'site:bamboohr.com/jobs "Software Engineer" OR "AI Engineer" OR "Data Scientist" remote'
+    enabled: true
+
+  # JazzHR — common for smaller companies
+  - name: JazzHR — Engineering roles
+    query: 'site:app.jazz.co "Software Engineer" OR "AI" OR "Machine Learning" remote senior'
+    enabled: true
+
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # GENERAL JOB BOARDS
+  # Broad job aggregators and portals covering all companies
+  # ───────────────────────────────────────────────────────────────────────────
+
+  # LinkedIn — world's largest professional job board
+  # Note: WebSearch results are often partial (login required for full access).
+  # For best LinkedIn results, use /career-ops scan with claude --chrome (authenticated).
+  - name: LinkedIn — Software Engineering
+    query: 'site:linkedin.com/jobs "Software Engineer" OR "Backend Engineer" OR "Full Stack Engineer" remote -junior -intern'
+    enabled: true
+
+  - name: LinkedIn — AI / ML Engineer
+    query: 'site:linkedin.com/jobs "AI Engineer" OR "Machine Learning Engineer" OR "ML Engineer" OR "Data Scientist" remote'
+    enabled: true
+
+  - name: LinkedIn — Platform / Infra
+    query: 'site:linkedin.com/jobs "Platform Engineer" OR "Infrastructure Engineer" OR "SRE" OR "DevOps" remote senior OR staff'
+    enabled: true
+
+  - name: LinkedIn — Solutions / GTM Engineering
+    query: 'site:linkedin.com/jobs "Solutions Architect" OR "Solutions Engineer" OR "Forward Deployed" OR "Customer Engineer" remote'
+    enabled: true
+
+  - name: LinkedIn — Product Manager (Tech)
+    query: 'site:linkedin.com/jobs "Product Manager" "AI" OR "Platform" OR "Technical" remote senior OR lead'
+    enabled: true
+
+  # Indeed — highest traffic job board globally
+  - name: Indeed — Software Engineering
+    query: 'site:indeed.com "Software Engineer" OR "Backend Engineer" OR "Full Stack" remote -junior -intern'
+    enabled: true
+
+  - name: Indeed — AI / ML roles
+    query: 'site:indeed.com "AI Engineer" OR "Machine Learning Engineer" OR "Data Scientist" remote -junior -intern'
+    enabled: true
+
+  - name: Indeed — Platform / Infra
+    query: 'site:indeed.com "Platform Engineer" OR "DevOps" OR "SRE" OR "Infrastructure Engineer" remote senior'
+    enabled: true
+
+  # Glassdoor — job listings with salary + company reviews
+  - name: Glassdoor — Software Engineering
+    query: 'site:glassdoor.com/job-listing "Software Engineer" OR "Backend Engineer" remote -junior -intern'
+    enabled: true
+
+  - name: Glassdoor — AI / ML roles
+    query: 'site:glassdoor.com/job-listing "AI Engineer" OR "Machine Learning Engineer" OR "Data Scientist" remote'
+    enabled: true
+
+  # Wellfound (AngelList) — startup-focused, early to growth stage
+  - name: Wellfound — Engineering (startups)
+    query: 'site:wellfound.com/jobs "Software Engineer" OR "Backend Engineer" OR "Full Stack" remote seed OR series-a OR series-b'
+    enabled: true
+
+  - name: Wellfound — AI / ML (startups)
+    query: 'site:wellfound.com "AI Engineer" OR "Machine Learning" OR "LLM" OR "Applied AI" remote'
+    enabled: true
+
+  - name: Wellfound — Platform / Solutions (startups)
+    query: 'site:wellfound.com "Platform Engineer" OR "Solutions Engineer" OR "Forward Deployed" remote'
+    enabled: true
+
+  # Y Combinator — Work at a Startup (high-signal, YC-backed only)
+  - name: YC Work at a Startup — Engineering / AI
+    query: 'site:workatastartup.com "Software Engineer" OR "AI Engineer" OR "Machine Learning" OR "Data Scientist" remote'
+    enabled: true
+
+  - name: YC Work at a Startup — Platform / Solutions
+    query: 'site:workatastartup.com "Platform Engineer" OR "Solutions Engineer" OR "Forward Deployed" OR "Infrastructure" remote'
+    enabled: true
+
+  # Hacker News — Who's Hiring (monthly thread, very high signal)
+  - name: HN Who's Hiring — Engineering / AI
+    query: 'site:news.ycombinator.com "who is hiring" "Software Engineer" OR "AI Engineer" OR "Machine Learning" OR "Data Scientist" remote'
+    enabled: true
+
+  # Built In — US tech jobs, city-specific portals
+  - name: Built In — Engineering / AI (US)
+    query: 'site:builtin.com "Software Engineer" OR "AI Engineer" OR "Machine Learning" OR "Data Scientist" remote OR "San Francisco" OR "New York"'
+    enabled: true
+
+  # Dice — tech-specialist job board
+  - name: Dice — Engineering / AI
+    query: 'site:dice.com "Software Engineer" OR "AI Engineer" OR "Machine Learning Engineer" OR "Data Scientist" remote -junior'
+    enabled: true
+
+  # Simplify.jobs — aggregator with one-click Easy Apply
+  - name: Simplify — Engineering / AI
+    query: 'site:simplify.jobs "Software Engineer" OR "AI Engineer" OR "Machine Learning" OR "Data Scientist" remote'
+    enabled: true
+
+  - name: Simplify — Platform / Solutions
+    query: 'site:simplify.jobs "Platform Engineer" OR "Solutions Architect" OR "DevOps" OR "SRE" remote'
+    enabled: true
+
+  # Levels.fyi — compensation-transparent tech jobs
+  - name: Levels.fyi — Engineering / AI
+    query: 'site:levels.fyi/jobs "Software Engineer" OR "AI Engineer" OR "Machine Learning" OR "Data Scientist" remote'
+    enabled: true
+
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # REMOTE-FOCUSED JOB BOARDS
+  # High-quality remote-first listings
+  # ───────────────────────────────────────────────────────────────────────────
+
+  # Remotive — curated remote tech jobs
+  - name: Remotive — Engineering / AI / Data
+    query: 'site:remotive.com "Software Engineer" OR "AI Engineer" OR "Machine Learning" OR "Data Scientist" OR "Solutions Architect"'
+    enabled: true
+
+  # WeWorkRemotely — largest remote job board
+  - name: WeWorkRemotely — Engineering / AI
+    query: 'site:weworkremotely.com "Software Engineer" OR "AI" OR "Machine Learning" OR "Data Scientist" OR "Solutions Engineer"'
+    enabled: true
+
+  # Working Nomads — remote jobs for digital workers
+  - name: Working Nomads — Engineering / AI
+    query: 'site:workingnomads.com "Software Engineer" OR "AI Engineer" OR "Machine Learning" OR "Data Scientist"'
+    enabled: true
+
+  # RemoteOK — real-time remote job listings
+  - name: RemoteOK — Engineering / AI
+    query: 'site:remoteok.com "Software Engineer" OR "AI Engineer" OR "Machine Learning" OR "Data Scientist" OR "Solutions Engineer"'
+    enabled: true
+
+  # Himalayas — remote job board with salary transparency
+  - name: Himalayas — Engineering / AI
+    query: 'site:himalayas.app "Software Engineer" OR "AI Engineer" OR "Machine Learning" OR "Data Scientist" OR "Solutions Architect"'
+    enabled: true
+
+  # EU Remote Jobs — remote jobs targeted at EU market
+  - name: EU Remote Jobs — Engineering / AI
+    query: 'site:euremotejobs.com "Software Engineer" OR "AI" OR "Machine Learning" OR "Data Scientist" OR "Solutions Engineer"'
+    enabled: true
+
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # SPECIALIZED / NICHE JOB BOARDS
+  # ───────────────────────────────────────────────────────────────────────────
+
+  # ai-jobs.net — AI/ML-only job board
+  - name: ai-jobs.net — All AI / ML roles
+    query: 'site:ai-jobs.net "Engineer" OR "Scientist" OR "Architect" OR "Manager" remote'
+    enabled: true
+
+  # fwddeploy.com — Forward Deployed / Solutions Engineering niche
+  - name: fwddeploy.com — Solutions / FDE roles
+    query: 'site:fwddeploy.com remote OR "United States" OR Europe OR EMEA'
+    enabled: true
+
+  # TrueUp — tech job board with real-time salary data
+  - name: TrueUp — Engineering / AI
+    query: 'site:trueup.io "Software Engineer" OR "AI Engineer" OR "Machine Learning" OR "Data Scientist" remote'
+    enabled: true
+
+  # Remote Rocketship — remote tech jobs aggregator
+  - name: Remote Rocketship — Engineering / AI
+    query: 'site:remoterocketship.com "Software Engineer" OR "AI" OR "Machine Learning" OR "Data Scientist" remote'
+    enabled: true
+
+  # Otta (now Work180 / Welcome to the Jungle) — startup and scale-up roles
+  - name: Welcome to the Jungle — Engineering / AI
+    query: 'site:welcometothejungle.com "Software Engineer" OR "AI Engineer" OR "Machine Learning" OR "Data Scientist" remote'
+    enabled: true
+
+  # EU Data Jobs — data and ML roles focused on Europe
+  - name: EU Data Jobs — Data / AI / ML
+    query: 'site:eudatajobs.com "Data Engineer" OR "ML Engineer" OR "AI" OR "Machine Learning" OR "Data Scientist" remote Europe'
+    enabled: true
+
+  # DevRelX — Developer Relations niche board (if targeting DevRel roles)
+  - name: DevRelX Jobs — DevRel / DX roles
+    query: 'site:devrelx.com/jobs remote OR Europe OR "United States"'
+    enabled: false
+    notes: "Enable if targeting Developer Relations or Developer Experience roles"
+
+  # DevRel Job board — dedicated DevRel listings
+  - name: DevRel Job Board
+    query: 'site:devreljob.com remote OR Europe OR "United States"'
+    enabled: false
+    notes: "Enable if targeting Developer Relations roles"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# TRACKED COMPANIES (optional)
+#
+# Add specific companies here to scan them directly via their ATS API.
+# This is faster and more reliable than WebSearch — results are real-time,
+# not Google-cached.
+#
+# scan.mjs uses this section for zero-token API scanning (Greenhouse, Ashby, Lever).
+# The /career-ops scan Claude agent also uses it for Playwright-based scanning.
+#
+# HOW TO ADD A COMPANY:
+#
+# Greenhouse company:
+#   - name: Company Name
+#     careers_url: https://job-boards.greenhouse.io/{slug}
+#     api: https://boards-api.greenhouse.io/v1/boards/{slug}/jobs
+#     enabled: true
+#
+# Ashby company:
+#   - name: Company Name
+#     careers_url: https://jobs.ashbyhq.com/{slug}
+#     enabled: true
+#
+# Lever company:
+#   - name: Company Name
+#     careers_url: https://jobs.lever.co/{slug}
+#     enabled: true
+#
+# Any company (Playwright scraping):
+#   - name: Company Name
+#     careers_url: https://company.com/careers
+#     scan_method: playwright
+#     enabled: true
+#
+# Leave this list empty to rely purely on search_queries above.
+# ─────────────────────────────────────────────────────────────────────────────
+
+tracked_companies: []
