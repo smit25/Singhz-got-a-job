@@ -3,7 +3,7 @@ name: singhz-got-a-job
 description: Singhz Got a Job — AI job search command center; evaluate offers, generate CVs, scan portals, track applications
 user_invocable: true
 args: mode
-argument-hint: "[scan | deep | pdf | resume | oferta | ofertas | apply | batch | approve | fast-queue | batch-apply | tracker | pipeline | contacto | training | project | interview-prep | update]"
+argument-hint: "[scan | deep | pdf | resume | oferta | ofertas | apply | batch | approve | fast-queue | batch-apply | tracker | pipeline | contacto | patterns | followup | interview-prep | update]"
 ---
 
 # Singhz Got a Job — Router
@@ -22,8 +22,6 @@ Determine the mode from `{{mode}}`:
 | `deep` | `deep` |
 | `pdf` | `pdf` |
 | `resume` | `resume` |
-| `training` | `training` |
-| `project` | `project` |
 | `tracker` | `tracker` |
 | `pipeline` | `pipeline` |
 | `apply` | `apply` |
@@ -57,8 +55,6 @@ Available commands:
   /singhz-got-a-job deep      → Deep research prompt about company
   /singhz-got-a-job pdf       → PDF only, ATS-optimized CV (per job)
   /singhz-got-a-job resume    → Build/store master resume PDF (default upload)
-  /singhz-got-a-job training  → Evaluate course/cert against North Star
-  /singhz-got-a-job project   → Evaluate portfolio project idea
   /singhz-got-a-job tracker   → Application status overview
   /singhz-got-a-job apply     → Live application assistant (reads form + generates answers)
   /singhz-got-a-job scan        → Scan portals and discover new offers
@@ -89,7 +85,7 @@ Applies to: `auto-pipeline`, `oferta`, `ofertas`, `pdf`, `resume`, `contacto`, `
 ### Standalone modes (only their mode file):
 Read `modes/{mode}.md`
 
-Applies to: `tracker`, `deep`, `training`, `project`, `patterns`, `followup`, `fast-queue` (not `resume` — uses `modes/resume.md` + `modes/pdf.md` template only)
+Applies to: `tracker`, `deep`, `patterns`, `followup`, `fast-queue` (not `resume` — uses `modes/resume.md` + `modes/pdf.md` template only)
 
 **fast-queue:** Do NOT load `_shared.md`. File parsing and writes only — no evaluation, fetch, or subagents.
 

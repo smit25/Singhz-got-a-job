@@ -86,8 +86,6 @@ When using [OpenCode](https://opencode.ai), the following slash commands are ava
 | `/singhz-got-a-job-deep` | `/singhz-got-a-job deep` | Deep company research |
 | `/singhz-got-a-job-pdf` | `/singhz-got-a-job pdf` | Generate ATS-optimized CV |
 | `/singhz-got-a-job-latex` | `/singhz-got-a-job latex` | Export CV as LaTeX/Overleaf .tex |
-| `/singhz-got-a-job-training` | `/singhz-got-a-job training` | Evaluate course/cert against goals |
-| `/singhz-got-a-job-project` | `/singhz-got-a-job project` | Evaluate portfolio project idea |
 | `/singhz-got-a-job-tracker` | `/singhz-got-a-job tracker` | Application status overview |
 | `/singhz-got-a-job-apply` | `/singhz-got-a-job apply` | Live application assistant |
 | `/singhz-got-a-job-scan` | `/singhz-got-a-job scan` | Scan portals for new offers |
@@ -110,8 +108,6 @@ When using the [Gemini CLI](https://github.com/google-gemini/gemini-cli), the fo
 | `/singhz-got-a-job-contact` | `/singhz-got-a-job contacto` | LinkedIn outreach (find contacts + draft) |
 | `/singhz-got-a-job-deep` | `/singhz-got-a-job deep` | Deep company research |
 | `/singhz-got-a-job-pdf` | `/singhz-got-a-job pdf` | Generate ATS-optimized CV |
-| `/singhz-got-a-job-training` | `/singhz-got-a-job training` | Evaluate course/cert against goals |
-| `/singhz-got-a-job-project` | `/singhz-got-a-job project` | Evaluate portfolio project idea |
 | `/singhz-got-a-job-tracker` | `/singhz-got-a-job tracker` | Application status overview |
 | `/singhz-got-a-job-apply` | `/singhz-got-a-job apply` | Live application assistant |
 | `/singhz-got-a-job-scan` | `/singhz-got-a-job scan` | Scan portals for new offers |
@@ -217,31 +213,6 @@ This system is designed to be customized by YOU (AI Agent). When the user asks y
 - "Change the CV template design" → edit `templates/cv-template.html`
 - "Adjust the scoring weights" → edit `modes/_profile.md` for user-specific weighting, or edit `modes/_shared.md` and `batch/batch-prompt.md` only when changing the shared system defaults for everyone
 
-### Language Modes
-
-Default modes are in `modes/` (English). Additional language-specific modes are available:
-
-- **German (DACH market):** `modes/de/` — native German translations with DACH-specific vocabulary (13. Monatsgehalt, Probezeit, Kündigungsfrist, AGG, Tarifvertrag, etc.). Includes `_shared.md`, `angebot.md` (evaluation), `bewerben.md` (apply), `pipeline.md`.
-- **French (Francophone market):** `modes/fr/` — native French translations with France/Belgium/Switzerland/Luxembourg-specific vocabulary (CDI/CDD, convention collective SYNTEC, RTT, mutuelle, prévoyance, 13e mois, intéressement/participation, titres-restaurant, CSE, portage salarial, etc.). Includes `_shared.md`, `offre.md` (evaluation), `postuler.md` (apply), `pipeline.md`.
-- **Japanese (Japan market):** `modes/ja/` — native Japanese translations with Japan-specific vocabulary (正社員, 業務委託, 賞与, 退職金, みなし残業, 年俸制, 36協定, 通勤手当, 住宅手当, etc.). Includes `_shared.md`, `kyujin.md` (evaluation), `oubo.md` (apply), `pipeline.md`.
-
-**When to use German modes:** If the user is targeting German-language job postings, lives in DACH, or asks for German output. Either:
-1. User says "use German modes" → read from `modes/de/` instead of `modes/`
-2. User sets `language.modes_dir: modes/de` in `config/profile.yml` → always use German modes
-3. You detect a German JD → suggest switching to German modes
-
-**When to use French modes:** If the user is targeting French-language job postings, lives in France/Belgium/Switzerland/Luxembourg/Quebec, or asks for French output. Either:
-1. User says "use French modes" → read from `modes/fr/` instead of `modes/`
-2. User sets `language.modes_dir: modes/fr` in `config/profile.yml` → always use French modes
-3. You detect a French JD → suggest switching to French modes
-
-**When to use Japanese modes:** If the user is targeting Japanese-language job postings, lives in Japan, or asks for Japanese output. Either:
-1. User says "use Japanese modes" → read from `modes/ja/` instead of `modes/`
-2. User sets `language.modes_dir: modes/ja` in `config/profile.yml` → always use Japanese modes
-3. You detect a Japanese JD → suggest switching to Japanese modes
-
-**When NOT to:** If the user applies to English-language roles, even at French, German, or Japanese companies, use the default English modes.
-
 ### Skill Modes
 
 | If the user... | Mode |
@@ -254,8 +225,6 @@ Default modes are in `modes/` (English). Additional language-specific modes are 
 | Preps for interview at specific company | `interview-prep` |
 | Wants to generate CV/PDF | `pdf` |
 | Wants stored default resume (upload without per-job pdf) | `resume` |
-| Evaluates a course/cert | `training` |
-| Evaluates portfolio project | `project` |
 | Asks about application status | `tracker` |
 | Fills out application form | `apply` |
 | Searches for new offers | `scan` |
@@ -299,7 +268,7 @@ Default modes are in `modes/` (English). Additional language-specific modes are 
 
 ## CI/CD and Quality
 
-- **GitHub Actions** run on every PR: `test-all.mjs` (63+ checks), auto-labeler (risk-based: 🔴 core-architecture, ⚠️ agent-behavior, 📄 docs), welcome bot for first-time contributors
+- **GitHub Actions** run on every PR: dashboard Go build + npm install, auto-labeler (risk-based: 🔴 core-architecture, ⚠️ agent-behavior, 📄 docs), welcome bot for first-time contributors
 - **Branch protection** on `main`: status checks must pass before merge. No direct pushes to main (except admin bypass).
 - **Dependabot** monitors npm, Go modules, and GitHub Actions for security updates
 - **Contributing process**: issue first → discussion → PR with linked issue → CI passes → maintainer review → merge

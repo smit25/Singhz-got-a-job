@@ -217,6 +217,41 @@ Opens the form, reads all questions, generates answers from your CV (+ report if
 
 ---
 
+## Terminal dashboard (Go)
+
+Optional TUI for browsing your tracker without Claude. Reads `data/applications.md`, evaluation reports, and related batch/scan files.
+
+**Prerequisites:** Go 1.22+ ([download](https://go.dev/dl/))
+
+**Run from the repo root:**
+
+```bash
+cd dashboard && go run . -path ..
+```
+
+| Key | Action |
+|-----|--------|
+| `↑↓` / `jk` | Navigate applications |
+| `←→` / `hl` | Switch filter tabs (ALL, EVALUATED, APPLIED, INTERVIEW, TOP ≥4, …) |
+| `s` | Cycle sort (score, date, company, status) |
+| `r` | Reload from disk |
+| `Enter` | Open evaluation report in-terminal |
+| `o` | Open job URL in browser |
+| `c` | Change application status |
+| `p` | Progress / funnel stats |
+| `Esc` / `q` | Quit (or back from report/progress view) |
+
+Build a binary:
+
+```bash
+cd dashboard && go build -o singhz-dashboard .
+./singhz-dashboard -path ..
+```
+
+Statuses follow `templates/states.yml` (same canonical states as the markdown tracker).
+
+---
+
 ## Job Portals Covered
 
 The scanner works across every major job platform — no company list needed. Add your role keywords to `portals.yml` and it searches everywhere.
@@ -385,6 +420,9 @@ Singhz-got-a-job/
 │   ├── cv-template.html      ← CV visual design
 │   └── cv-template.tex       ← LaTeX / Overleaf version
 │
+├── dashboard/                ← optional Go TUI (see Terminal dashboard above)
+│   └── main.go
+│
 └── scripts:
     scan.mjs                  ← portal scanner (zero LLM cost for API-based portals)
     generate-pdf.mjs          ← HTML → PDF via Playwright
@@ -424,16 +462,6 @@ If you customize archetypes, scoring weights, or negotiation scripts — put tho
 **Zero-token scanning.** Greenhouse, Ashby, and Lever expose public JSON APIs. The scanner hits these directly — no LLM calls, no cost, near-instant results.
 
 **Gets smarter over time.** Each evaluation adds to your STAR story bank. Each rejection improves the pattern analyzer. Feed it more context about yourself and the recommendations sharpen.
-
----
-
-## Language Support
-
-Evaluation modes are available in: English · Spanish · German (DACH) · French · Japanese · Portuguese (BR)
-
-Each pack includes market-specific vocabulary — e.g., German includes Probezeit, Kündigungsfrist, Tarifvertrag; French includes CDI/CDD, RTT, mutuelle, convention SYNTEC.
-
-Switch language: set `language.modes_dir: modes/de` (or `modes/fr`, `modes/ja`) in `config/profile.yml`.
 
 ---
 
