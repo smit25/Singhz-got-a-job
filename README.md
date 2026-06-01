@@ -42,6 +42,37 @@ npx playwright install chromium
 
 ---
 
+### Step 1b — Enable browser automation in Claude Code
+
+`batch-apply` and `apply` use Playwright to open forms, fill fields, and attach your CV. Without this step, those commands fall back to generating fill cards you paste manually.
+
+Run this once (globally, outside the repo):
+
+```bash
+claude mcp add playwright npx @playwright/mcp@latest
+```
+
+Then restart Claude Code. To verify it worked, start a session and run:
+
+```
+/singhz-got-a-job apply
+```
+
+If the browser opens automatically when you navigate to a job URL, Playwright is working.
+
+**What this enables:**
+- `batch-apply` fills every form field in your browser automatically
+- `apply` opens the live form and types answers in real time
+- `pdf` generates CV PDFs via headless Chromium
+- Liveness verification (`check-liveness.mjs`) reads the live page instead of relying on cached data
+
+**Troubleshooting:**
+- If `claude mcp add` is not recognized, update Claude Code: `npm install -g @anthropic-ai/claude-code`
+- To confirm the MCP server registered: `claude mcp list` — you should see `playwright` in the output
+- If you get a permissions error on macOS: run with `sudo` or fix npm global permissions
+
+---
+
 ### Step 2 — Open Claude Code in this folder
 
 ```bash

@@ -20,7 +20,7 @@ These files contain your personal data, customizations, and work product. Update
 | `data/follow-ups.md` | Your follow-up history |
 | `data/form-answers.yml` | Reusable application form Q&A (answer once, reuse everywhere) |
 | `reports/*` | Your evaluation reports |
-| `output/*` | Your generated PDFs |
+| `output/*` | Your generated PDFs (including `cv-*-master.pdf` default resume) |
 | `jds/*` | Your saved job descriptions |
 
 ## System Layer (safe to auto-update)
@@ -32,6 +32,9 @@ These files contain system logic, scripts, templates, and instructions that impr
 | `modes/_shared.md` | Scoring system, global rules, tools |
 | `modes/oferta.md` | Evaluation mode instructions |
 | `modes/pdf.md` | PDF generation instructions |
+| `modes/resume.md` | Master resume PDF (stored default upload) |
+| `resume-pdf-core.mjs` | Resolve tailored vs master PDF for uploads |
+| `resolve-resume-pdf.mjs` | CLI: print JSON for which resume to upload |
 | `modes/scan.md` | Portal scanner instructions |
 | `modes/batch.md` | Batch processing instructions |
 | `modes/apply.md` | Application assistant instructions |

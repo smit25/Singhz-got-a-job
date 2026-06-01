@@ -54,6 +54,12 @@ Identify ALL visible questions:
 - Salary fields (range, expectation)
 - Upload fields (resume, cover letter PDF)
 
+**Resume upload (when filling in browser):** Before uploading, resolve which PDF to use:
+```bash
+node resolve-resume-pdf.mjs --company "{Company}" --report "{report_num if known}"
+```
+Priority: job-tailored PDF (`/singhz-got-a-job pdf`) → stored master (`/singhz-got-a-job resume` or `cv.master_pdf` in profile). Upload the resolved path; do not require pdf mode per job if master exists.
+
 Classify each question (in this order):
 1. **`auto`** — name, email, phone, etc. from `config/profile.yml`
 2. **`bank`** — label matches `data/form-answers.yml` (read file; create from `templates/form-answers.example.yml` if missing). Use stored `answer` as-is unless company-specific adaptation is needed.

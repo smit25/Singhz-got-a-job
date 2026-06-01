@@ -3,7 +3,7 @@ name: singhz-got-a-job
 description: Singhz Got a Job — AI job search command center; evaluate offers, generate CVs, scan portals, track applications
 user_invocable: true
 args: mode
-argument-hint: "[scan | deep | pdf | oferta | ofertas | apply | batch | approve | fast-queue | batch-apply | tracker | pipeline | contacto | training | project | interview-prep | update]"
+argument-hint: "[scan | deep | pdf | resume | oferta | ofertas | apply | batch | approve | fast-queue | batch-apply | tracker | pipeline | contacto | training | project | interview-prep | update]"
 ---
 
 # Singhz Got a Job — Router
@@ -21,6 +21,7 @@ Determine the mode from `{{mode}}`:
 | `contacto` | `contacto` |
 | `deep` | `deep` |
 | `pdf` | `pdf` |
+| `resume` | `resume` |
 | `training` | `training` |
 | `project` | `project` |
 | `tracker` | `tracker` |
@@ -54,7 +55,8 @@ Available commands:
   /singhz-got-a-job ofertas   → Compare and rank multiple offers
   /singhz-got-a-job contacto  → LinkedIn power move: find contacts + draft message
   /singhz-got-a-job deep      → Deep research prompt about company
-  /singhz-got-a-job pdf       → PDF only, ATS-optimized CV
+  /singhz-got-a-job pdf       → PDF only, ATS-optimized CV (per job)
+  /singhz-got-a-job resume    → Build/store master resume PDF (default upload)
   /singhz-got-a-job training  → Evaluate course/cert against North Star
   /singhz-got-a-job project   → Evaluate portfolio project idea
   /singhz-got-a-job tracker   → Application status overview
@@ -68,7 +70,7 @@ Available commands:
   /singhz-got-a-job followup    → Follow-up cadence tracker: flag overdue, generate drafts
 
 Full pipeline: scan → pipeline → approve → batch-apply
-Fast apply: scan → edit pipeline.md ([x] rows) → fast-queue → pdf / batch-apply
+Fast apply: scan → edit pipeline.md ([x] rows) → fast-queue → resume (once) → batch-apply
 Inbox: add URLs to data/pipeline.md → /singhz-got-a-job pipeline
 Or paste a JD directly to run the full pipeline.
 ```
@@ -82,12 +84,12 @@ After determining the mode, load the necessary files before executing:
 ### Modes that require `_shared.md` + their mode file:
 Read `modes/_shared.md` + `modes/{mode}.md`
 
-Applies to: `auto-pipeline`, `oferta`, `ofertas`, `pdf`, `contacto`, `apply`, `pipeline`, `scan`, `batch`, `approve`, `batch-apply`
+Applies to: `auto-pipeline`, `oferta`, `ofertas`, `pdf`, `resume`, `contacto`, `apply`, `pipeline`, `scan`, `batch`, `approve`, `batch-apply`
 
 ### Standalone modes (only their mode file):
 Read `modes/{mode}.md`
 
-Applies to: `tracker`, `deep`, `training`, `project`, `patterns`, `followup`, `fast-queue`
+Applies to: `tracker`, `deep`, `training`, `project`, `patterns`, `followup`, `fast-queue` (not `resume` — uses `modes/resume.md` + `modes/pdf.md` template only)
 
 **fast-queue:** Do NOT load `_shared.md`. File parsing and writes only — no evaluation, fetch, or subagents.
 

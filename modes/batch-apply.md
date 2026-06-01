@@ -65,7 +65,10 @@ batch-apply manifest — {N} job(s) from apply-queue (Queued only)
 ## Prerequisites
 
 1. `data/apply-queue.md` must have rows with status `Queued`
-2. PDF must exist in `output/` for each job (or generate via `/singhz-got-a-job pdf` first)
+2. **Resume PDF:** job-tailored PDF in `output/` (from `/singhz-got-a-job pdf`) **or** stored master resume (from `/singhz-got-a-job resume` once). Resolve before upload:
+   ```bash
+   node resolve-resume-pdf.mjs --company "{Company}" --report "{report}"
+   ```
 3. For LinkedIn Easy Apply: user must be logged into LinkedIn in Chrome (`claude --chrome` mode)
 
 If apply-queue.md is empty or has no `Queued` rows:
@@ -328,10 +331,20 @@ Filling form: {Company} — {Role}  ({N} of {total})
 ### Upload handling
 
 If the form has a resume upload field:
-1. Look for `output/{report_num}-{company-slug}-*.pdf`
-2. If found: `browser_upload(selector, pdf_path)`
-3. If not found: run pdf mode first, then upload
-4. Cover letter upload (if separate field): generate cover letter to `output/{report_num}-cover-{company-slug}.pdf`
+
+1. Resolve PDF (mandatory before upload):
+   ```bash
+   node resolve-resume-pdf.mjs --company "{Company}" --report "{report}"
+   ```
+2. Use JSON `path` from stdout:
+   - **`source: tailored`** — job-specific PDF from `/singhz-got-a-job pdf`; upload this file.
+   - **`source: master`** — stored default resume (`cv.master_pdf` or `output/cv-{name}-master.pdf`); upload **without** running pdf mode for this job.
+   - **`source: missing`** — stop and tell user: run `/singhz-got-a-job resume` once (master), or `/singhz-got-a-job pdf {url}` for a tailored CV.
+3. `browser_upload(selector, pdf_path)` with the resolved path.
+4. In the review summary, show which source was used, e.g. `📄 Resume PDF: … (master)` or `… (tailored)`.
+5. Cover letter upload (if separate field): generate cover letter to `output/{report_num}-cover-{company-slug}.pdf`
+
+**RULE:** Never block apply on missing job-specific PDF if master resume exists. Only block when both tailored and master are missing.
 
 ---
 
@@ -346,7 +359,7 @@ After filling each form, show the user a snapshot and a structured summary:
   Score: {score}/5 | Report: #{report_num}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-  📄 Resume PDF: output/{report_num}-{slug}.pdf ✅
+  📄 Resume PDF: {resolved path} ✅ ({tailored|master})
   🌐 Form URL: {url}
 
   Form fields filled:

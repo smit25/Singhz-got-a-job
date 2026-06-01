@@ -66,4 +66,46 @@ answers:
     updated: "2026-06-01"
     source: profile
 
-company_answers: []
+  - id: production_ml_experience
+    scope: shared
+    match:
+      - experience building and deploying machine learning
+      - production ml experience
+      - building and deploying ml models
+      - ml models in production
+      - operationalizing ml
+    answer: "Building production ML means shipping systems that hold up under real-world conditions — not just ones that score well on held-out test sets. My experience spans three companies across different domains.\n\nAt Anote AI, I built a multimodal synthetic data engine and deployed it as a PyPI package — handling API design, versioning, and dependency management so external teams could integrate it without friction.\n\nAt Société Générale, I operated at a different scale: privacy-preserving GANs generating 30M+ synthetic financial records across 10+ compliance use cases. I built Spark-based pipelines to handle throughput and deployed a document forgery detection system (CNN + OCR) that reduced manual review volume by 80%.\n\nA trade compliance RAG copilot added another dimension — retrieval pipelines that stay accurate as underlying documents change. Deployed on AWS with Docker and automated update workflows, it maintained 85% accuracy across 1,000+ regulatory documents.\n\nThe through-line: production ML requires treating data quality, monitoring, and inference performance as first-class concerns from day one. At Samsung, that meant quantizing a GAN to 208MB with 1.2-second inference latency for Android edge deployment — which required quantization-aware thinking at the architecture stage, not as an afterthought."
+    updated: "2026-06-01"
+
+  - id: recent_ml_papers
+    scope: shared
+    match:
+      - recent ml research papers
+      - papers you have read
+      - research papers found interesting
+      - ml papers
+      - academic papers on machine learning
+    answer: "Three papers I've found particularly relevant recently:\n\n\"Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection\" (Asai et al., 2023) — The critique step (the model deciding when retrieval actually helps) maps directly to problems I hit building production RAG pipelines. Most RAG systems retrieve indiscriminately; Self-RAG's selective retrieval is a more honest model of when retrieval adds value.\n\n\"DataDreamer: A Tool for Synthetic Data Generation and Reproducible LLM Workflows\" (Patel et al., 2024) — Close to work I've done on synthetic data engines. The reproducibility framing resonated — synthetic data pipelines are hard to reproduce across teams, and I've felt that pain firsthand.\n\n\"Matryoshka Representation Learning\" (Kusupati et al., 2022) — Embedding models that support variable-length representations at inference time. Practically useful for vector search at scale — larger embeddings when you need precision, smaller when you need throughput."
+    updated: "2026-06-01"
+
+  - id: industry_advances
+    scope: shared
+    match:
+      - recent products features or models
+      - ml industry caught your attention
+      - advances in machine learning industry
+      - recent developments in ml
+      - recent ai industry advances
+    answer: "A few things have stood out recently:\n\nReasoning models (DeepSeek R1, OpenAI o1/o3) — What's interesting isn't the benchmark numbers but the architectural implication: chain-of-thought at inference time lets you trade compute for correctness on the fly. For retrieval-augmented systems, this changes how you think about when to retrieve vs. when to reason from context.\n\nThe long-context vs. RAG debate — Models with 1M+ token context windows reopen the question of whether retrieval is necessary, or whether it's a workaround for context limits. My take: retrieval is still better for knowledge that changes frequently and for source attribution. But the tradeoffs are genuinely different now.\n\nAdvances in embedding models — The gap between general-purpose and domain-specific embeddings has narrowed, but domain fine-tuned embeddings still win on specialized retrieval tasks. The Nomic and E5 families have been particularly practical for production use — strong performance without the latency of larger models."
+    updated: "2026-06-01"
+
+company_answers:
+  - company: "Hugging Face"
+    id: hf_cover_letter
+    match:
+      - cover letter
+      - why do you want to work in open-source
+      - why hugging face
+      - why do you want to work at hugging face
+    answer: "At Hugging Face, open-source isn't just a distribution model — it's a philosophy about who gets to build with AI. That's why I want to work here.\n\nMy path into ML has consistently pushed me toward making systems usable beyond my own team. At Anote AI, I built a multimodal synthetic data engine and shipped it as a PyPI package — not because it was required, but because the engineering decisions that make a library maintainable and composable are more interesting than the ones that keep code private. I wrote it with a clean external API surface, handled versioning, and documented it for users I'd never meet.\n\nThat pattern shows up in my research too. My IEEE paper on imputation methods wasn't just about proving Gaussian Copula was the better algorithm — it was about building a reproducible benchmark that other teams could run on their own data. Open methodology is how you find out whether your results actually hold.\n\nI use the `transformers` library regularly: fine-tuning on low-resource domains at Anote AI, building retrieval pipelines, evaluating embedding quality. I want to contribute to these problems directly, not just consume the library's work. Specifically, I'm interested in contributing to evaluation tooling and synthetic data generation utilities — areas where I have production experience and where I see real gaps in the ecosystem.\n\nI'm finishing my MS CS at NYU in May 2026 and can start immediately. I'd bring production instinct from shipping ML systems that external teams rely on, a focus on data quality (self-supervised correction loops, 35% quality improvement), and the habit of publishing methodology openly."
+    updated: "2026-06-01"
