@@ -1,4 +1,4 @@
-# Career-Ops -- AI Job Search Pipeline
+# Singhz Got a Job -- AI Job Search Pipeline
 
 ## Origin
 
@@ -32,17 +32,17 @@ node update-system.mjs check
 
 Parse the JSON output:
 - `{"status": "update-available", "local": "1.0.0", "remote": "1.1.0", "changelog": "..."}` → tell the user:
-  > "career-ops update available (v{local} → v{remote}). Your data (CV, profile, tracker, reports) will NOT be touched. Want me to update?"
+  > "singhz-got-a-job update available (v{local} → v{remote}). Your data (CV, profile, tracker, reports) will NOT be touched. Want me to update?"
   If yes → run `node update-system.mjs apply`. If no → run `node update-system.mjs dismiss`.
 - `{"status": "up-to-date"}` → say nothing
 - `{"status": "dismissed"}` → say nothing
 - `{"status": "offline"}` → say nothing
 - `{"status": "no-remote-version"}` → say nothing (checker reached GitHub but neither VERSION nor the latest release tag parsed as semver — treat as a silent non-failure, same as offline)
 
-The user can also say "check for updates" or "update career-ops" at any time to force a check.
+The user can also say "check for updates" or "update singhz-got-a-job" at any time to force a check.
 To rollback: `node update-system.mjs rollback`
 
-## What is career-ops
+## What is singhz-got-a-job
 
 AI-powered job search automation built on Claude Code: pipeline tracking, offer evaluation, CV generation, portal scanning, batch processing.
 
@@ -65,6 +65,7 @@ AI-powered job search automation built on Claude Code: pipeline tracking, offer 
 | `analyze-patterns.mjs` | Pattern analysis script (JSON output) |
 | `followup-cadence.mjs` | Follow-up cadence calculator (JSON output) |
 | `data/follow-ups.md` | Follow-up history tracker |
+| `data/form-answers.yml` | Reusable application form answers (persisted across batch-apply sessions) |
 | `scan.mjs` | Zero-token portal scanner — hits Greenhouse/Ashby/Lever APIs directly, zero LLM cost |
 | `check-liveness.mjs` | Job posting liveness checker |
 | `liveness-core.mjs` | Shared liveness logic (expired signals win over generic Apply text) |
@@ -76,24 +77,24 @@ When using [OpenCode](https://opencode.ai), the following slash commands are ava
 
 | Command | Claude Code Equivalent | Description |
 |---------|------------------------|-------------|
-| `/career-ops` | `/career-ops` | Show menu or evaluate JD with args |
-| `/career-ops-pipeline` | `/career-ops pipeline` | Process pending URLs from inbox |
-| `/career-ops-evaluate` | `/career-ops oferta` | Evaluate job offer (A-F scoring) |
-| `/career-ops-compare` | `/career-ops ofertas` | Compare and rank multiple offers |
-| `/career-ops-contact` | `/career-ops contacto` | LinkedIn outreach (find contacts + draft) |
-| `/career-ops-deep` | `/career-ops deep` | Deep company research |
-| `/career-ops-pdf` | `/career-ops pdf` | Generate ATS-optimized CV |
-| `/career-ops-latex` | `/career-ops latex` | Export CV as LaTeX/Overleaf .tex |
-| `/career-ops-training` | `/career-ops training` | Evaluate course/cert against goals |
-| `/career-ops-project` | `/career-ops project` | Evaluate portfolio project idea |
-| `/career-ops-tracker` | `/career-ops tracker` | Application status overview |
-| `/career-ops-apply` | `/career-ops apply` | Live application assistant |
-| `/career-ops-scan` | `/career-ops scan` | Scan portals for new offers |
-| `/career-ops-batch` | `/career-ops batch` | Batch processing with parallel workers |
-| `/career-ops-patterns` | `/career-ops patterns` | Analyze rejection patterns and improve targeting |
-| `/career-ops-followup` | `/career-ops followup` | Follow-up cadence tracker |
+| `/singhz-got-a-job` | `/singhz-got-a-job` | Show menu or evaluate JD with args |
+| `/singhz-got-a-job-pipeline` | `/singhz-got-a-job pipeline` | Process pending URLs from inbox |
+| `/singhz-got-a-job-evaluate` | `/singhz-got-a-job oferta` | Evaluate job offer (A-F scoring) |
+| `/singhz-got-a-job-compare` | `/singhz-got-a-job ofertas` | Compare and rank multiple offers |
+| `/singhz-got-a-job-contact` | `/singhz-got-a-job contacto` | LinkedIn outreach (find contacts + draft) |
+| `/singhz-got-a-job-deep` | `/singhz-got-a-job deep` | Deep company research |
+| `/singhz-got-a-job-pdf` | `/singhz-got-a-job pdf` | Generate ATS-optimized CV |
+| `/singhz-got-a-job-latex` | `/singhz-got-a-job latex` | Export CV as LaTeX/Overleaf .tex |
+| `/singhz-got-a-job-training` | `/singhz-got-a-job training` | Evaluate course/cert against goals |
+| `/singhz-got-a-job-project` | `/singhz-got-a-job project` | Evaluate portfolio project idea |
+| `/singhz-got-a-job-tracker` | `/singhz-got-a-job tracker` | Application status overview |
+| `/singhz-got-a-job-apply` | `/singhz-got-a-job apply` | Live application assistant |
+| `/singhz-got-a-job-scan` | `/singhz-got-a-job scan` | Scan portals for new offers |
+| `/singhz-got-a-job-batch` | `/singhz-got-a-job batch` | Batch processing with parallel workers |
+| `/singhz-got-a-job-patterns` | `/singhz-got-a-job patterns` | Analyze rejection patterns and improve targeting |
+| `/singhz-got-a-job-followup` | `/singhz-got-a-job followup` | Follow-up cadence tracker |
 
-**Note:** OpenCode commands invoke the same `.claude/skills/career-ops/SKILL.md` skill used by Claude Code. The `modes/*` files are shared between both platforms.
+**Note:** OpenCode commands invoke the same `.claude/skills/singhz-got-a-job/SKILL.md` skill used by Claude Code. The `modes/*` files are shared between both platforms.
 
 ### Gemini CLI Commands
 
@@ -101,21 +102,21 @@ When using the [Gemini CLI](https://github.com/google-gemini/gemini-cli), the fo
 
 | Command | Claude Code Equivalent | Description |
 |---------|------------------------|-------------|
-| `/career-ops` | `/career-ops` | Show menu or evaluate JD with args |
-| `/career-ops-pipeline` | `/career-ops pipeline` | Process pending URLs from inbox |
-| `/career-ops-evaluate` | `/career-ops oferta` | Evaluate job offer (A-G scoring) |
-| `/career-ops-compare` | `/career-ops ofertas` | Compare and rank multiple offers |
-| `/career-ops-contact` | `/career-ops contacto` | LinkedIn outreach (find contacts + draft) |
-| `/career-ops-deep` | `/career-ops deep` | Deep company research |
-| `/career-ops-pdf` | `/career-ops pdf` | Generate ATS-optimized CV |
-| `/career-ops-training` | `/career-ops training` | Evaluate course/cert against goals |
-| `/career-ops-project` | `/career-ops project` | Evaluate portfolio project idea |
-| `/career-ops-tracker` | `/career-ops tracker` | Application status overview |
-| `/career-ops-apply` | `/career-ops apply` | Live application assistant |
-| `/career-ops-scan` | `/career-ops scan` | Scan portals for new offers |
-| `/career-ops-batch` | `/career-ops batch` | Batch processing with parallel workers |
-| `/career-ops-patterns` | `/career-ops patterns` | Analyze rejection patterns and improve targeting |
-| `/career-ops-followup` | `/career-ops followup` | Follow-up cadence tracker |
+| `/singhz-got-a-job` | `/singhz-got-a-job` | Show menu or evaluate JD with args |
+| `/singhz-got-a-job-pipeline` | `/singhz-got-a-job pipeline` | Process pending URLs from inbox |
+| `/singhz-got-a-job-evaluate` | `/singhz-got-a-job oferta` | Evaluate job offer (A-G scoring) |
+| `/singhz-got-a-job-compare` | `/singhz-got-a-job ofertas` | Compare and rank multiple offers |
+| `/singhz-got-a-job-contact` | `/singhz-got-a-job contacto` | LinkedIn outreach (find contacts + draft) |
+| `/singhz-got-a-job-deep` | `/singhz-got-a-job deep` | Deep company research |
+| `/singhz-got-a-job-pdf` | `/singhz-got-a-job pdf` | Generate ATS-optimized CV |
+| `/singhz-got-a-job-training` | `/singhz-got-a-job training` | Evaluate course/cert against goals |
+| `/singhz-got-a-job-project` | `/singhz-got-a-job project` | Evaluate portfolio project idea |
+| `/singhz-got-a-job-tracker` | `/singhz-got-a-job tracker` | Application status overview |
+| `/singhz-got-a-job-apply` | `/singhz-got-a-job apply` | Live application assistant |
+| `/singhz-got-a-job-scan` | `/singhz-got-a-job scan` | Scan portals for new offers |
+| `/singhz-got-a-job-batch` | `/singhz-got-a-job batch` | Batch processing with parallel workers |
+| `/singhz-got-a-job-patterns` | `/singhz-got-a-job patterns` | Analyze rejection patterns and improve targeting |
+| `/singhz-got-a-job-followup` | `/singhz-got-a-job followup` | Follow-up cadence tracker |
 
 **Note:** Gemini CLI commands are defined in `.gemini/commands/*.toml`. The project context is auto-loaded from `GEMINI.md`. All `modes/*` files are shared across Claude Code, OpenCode, and Gemini CLI.
 
@@ -191,8 +192,8 @@ Store any insights the user shares in `config/profile.yml` (under narrative), `m
 Once all files exist, confirm:
 > "You're all set! You can now:
 > - Paste a job URL to evaluate it
-> - Run `/career-ops scan` (or `/career-ops-scan` if using OpenCode) to search portals
-> - Run `/career-ops` to see all commands
+> - Run `/singhz-got-a-job scan` (or `/singhz-got-a-job-scan` if using OpenCode) to search portals
+> - Run `/singhz-got-a-job` to see all commands
 >
 > Everything is customizable — just ask me to change anything.
 >
@@ -201,7 +202,7 @@ Once all files exist, confirm:
 Then suggest automation:
 > "Want me to scan for new offers automatically? I can set up a recurring scan every few days so you don't miss anything. Just say 'scan every 3 days' and I'll configure it."
 
-If the user accepts, use the `/loop` or `/schedule` skill (if available) to set up a recurring `/career-ops scan` (or `/career-ops-scan` if using OpenCode). If those aren't available, suggest adding a cron job or remind them to run `/career-ops scan` (or `/career-ops-scan` if using OpenCode) periodically.
+If the user accepts, use the `/loop` or `/schedule` skill (if available) to set up a recurring `/singhz-got-a-job scan` (or `/singhz-got-a-job-scan` if using OpenCode). If those aren't available, suggest adding a cron job or remind them to run `/singhz-got-a-job scan` (or `/singhz-got-a-job-scan` if using OpenCode) periodically.
 
 ### Personalization
 
@@ -261,6 +262,7 @@ Default modes are in `modes/` (English). Additional language-specific modes are 
 | Asks about rejection patterns or wants to improve targeting | `patterns` |
 | Asks about follow-ups or application cadence | `followup` |
 | Wants to review evaluated jobs and pick which to apply to | `approve` |
+| Wants pipeline inbox jobs in apply queue without evaluation | `fast-queue` |
 | Wants to fill and submit multiple applications in one session | `batch-apply` |
 
 ### CV Source of Truth

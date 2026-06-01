@@ -1,10 +1,10 @@
-# Contexte partage -- career-ops (Francais)
+# Contexte partage -- singhz-got-a-job (Francais)
 
 <!-- ============================================================
      PERSONNALISATION DE CE FICHIER
      ============================================================
      Ce fichier contient le contexte partage pour tous les modes
-     career-ops en version francaise. Avant d'utiliser career-ops, tu DOIS :
+     singhz-got-a-job en version francaise. Avant d'utiliser singhz-got-a-job, tu DOIS :
      1. Remplir config/profile.yml avec tes informations personnelles
      2. Creer cv.md a la racine du projet (CV en Markdown)
      3. (Optionnel) Creer article-digest.md avec tes proof points

@@ -1,6 +1,6 @@
-# career-ops -- Modes francophones (`modes/fr/`)
+# singhz-got-a-job -- Modes francophones (`modes/fr/`)
 
-Ce dossier contient les traductions francaises des principaux modes career-ops pour les candidats qui ciblent le marche francophone (France, Belgique, Suisse romande, Luxembourg, Quebec).
+Ce dossier contient les traductions francaises des principaux modes singhz-got-a-job pour les candidats qui ciblent le marche francophone (France, Belgique, Suisse romande, Luxembourg, Quebec).
 
 ## Quand utiliser ces modes ?
 

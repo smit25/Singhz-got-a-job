@@ -1,4 +1,4 @@
-module github.com/santifer/career-ops/dashboard
+module github.com/smit25/Singhz-got-a-job/dashboard
 
 go 1.24.2
 

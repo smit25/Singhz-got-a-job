@@ -1,0 +1,65 @@
+# Form Answer Bank — copy to data/form-answers.yml
+#
+# Reused by batch-apply and apply. When you answer a question once, the agent
+# appends/updates an entry here so similar questions are not asked again.
+#
+# Matching: case-insensitive. A field matches if its label contains ANY phrase
+# in `match` (substring). Longer / more specific entries should be listed first
+# when you edit manually; the agent merges duplicates when saving.
+#
+# scope:
+#   shared     — same answer on every form (salary, visa, hear-about)
+#   per_company — only when `company` matches (use company_answers below)
+
+answers:
+  - id: salary_expectation
+    scope: shared
+    match:
+      - salary
+      - compensation
+      - desired pay
+      - expected base
+      - pay range
+    answer: "$150K-200K base (USD), flexible on equity"
+    updated: "2026-01-01"
+
+  - id: visa_sponsorship
+    scope: shared
+    match:
+      - require sponsorship
+      - visa sponsorship
+      - need sponsorship
+      - immigration sponsorship
+    answer: "Yes — will require work visa sponsorship"
+    updated: "2026-01-01"
+
+  - id: work_authorization
+    scope: shared
+    match:
+      - work authorization
+      - legally authorized to work
+      - eligible to work
+    answer: "Authorized to work in the United States with sponsorship"
+    updated: "2026-01-01"
+
+  - id: hear_about
+    scope: shared
+    match:
+      - how did you hear
+      - where did you hear
+      - referral source
+      - how did you find
+    answer: "Company careers page"
+    updated: "2026-01-01"
+
+  - id: start_date
+    scope: shared
+    match:
+      - start date
+      - earliest start
+      - available to start
+    answer: "2 weeks notice"
+    updated: "2026-01-01"
+
+# Optional: company-specific narratives (higher priority than shared for that company)
+company_answers: []

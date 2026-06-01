@@ -4,7 +4,7 @@ Review evaluated jobs and approve which ones to apply to. This is the human-in-t
 
 ## When to use
 
-Run after `/career-ops pipeline` or `/career-ops scan` has evaluated new offers. You'll see a ranked table, pick which ones to pursue, and they get added to the apply queue for `/career-ops batch-apply`.
+Run after `/singhz-got-a-job pipeline` or `/singhz-got-a-job scan` has evaluated new offers. You'll see a ranked table, pick which ones to pursue, and they get added to the apply queue for `/singhz-got-a-job batch-apply`.
 
 ## Workflow
 
@@ -94,8 +94,8 @@ Add signal flags per row:
 If there are no candidates:
 ```
 No evaluated jobs pending approval.
-→ Run /career-ops scan to discover new offers
-→ Run /career-ops pipeline to evaluate pending URLs
+→ Run /singhz-got-a-job scan to discover new offers
+→ Run /singhz-got-a-job pipeline to evaluate pending URLs
 ```
 
 ---
@@ -172,7 +172,7 @@ For each approved job that doesn't already have a PDF (`📄` flag not shown):
   📄 2 PDFs generated
   🚫 1 job marked SKIP
 
-  Next step: /career-ops batch-apply
+  Next step: /singhz-got-a-job batch-apply
   This will fill all 5 forms, collect missing questions, and
   walk you through final review before you submit each one.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

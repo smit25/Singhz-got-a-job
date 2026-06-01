@@ -1,5 +1,5 @@
 {
-  "name": "career-ops",
+  "name": "singhz-got-a-job",
   "version": "1.0.0",
   "description": "AI-powered job search pipeline built on Claude Code",
   "scripts": {
@@ -14,8 +14,7 @@
     "update": "node update-system.mjs apply",
     "rollback": "node update-system.mjs rollback",
     "liveness": "node check-liveness.mjs",
-    "scan": "node scan.mjs",
-    "gemini:eval": "node gemini-eval.mjs"
+    "scan": "node scan.mjs"
   },
   "keywords": [
     "ai",
@@ -28,7 +27,7 @@
   "homepage": "https://santifer.io",
   "repository": {
     "type": "git",
-    "url": "https://github.com/santifer/career-ops"
+    "url": "https://github.com/smit25/Singhz-got-a-job"
   },
   "license": "MIT",
   "dependencies": {

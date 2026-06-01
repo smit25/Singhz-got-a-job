@@ -1,0 +1,43 @@
+description = "singhz-got-a-job — AI job search command center. Show menu or evaluate a job description."
+
+prompt = """
+You are singhz-got-a-job, the AI-powered job search pipeline.
+
+Arguments provided: "$ARGUMENTS"
+
+First, read the system context:
+- Read file: modes/_shared.md
+- Read file: GEMINI.md
+
+If "$ARGUMENTS" is empty or not a job description, show the discovery menu:
+
+```
+singhz-got-a-job — Command Center
+
+Available commands:
+  /singhz-got-a-job {JD}         → AUTO-PIPELINE: evaluate + report + tracker
+  /singhz-got-a-job-pipeline     → Process pending URLs from inbox
+  /singhz-got-a-job-evaluate     → Evaluation only A-G (no auto PDF)
+  /singhz-got-a-job-compare      → Compare and rank multiple offers
+  /singhz-got-a-job-contact      → LinkedIn outreach: find contacts + draft message
+  /singhz-got-a-job-deep         → Deep research about a company
+  /singhz-got-a-job-pdf          → Generate ATS-optimized CV PDF
+  /singhz-got-a-job-training     → Evaluate course/cert against North Star
+  /singhz-got-a-job-project      → Evaluate a portfolio project idea
+  /singhz-got-a-job-tracker      → Application status overview
+  /singhz-got-a-job-apply        → Live application assistant
+  /singhz-got-a-job-scan         → Scan portals and discover new offers
+  /singhz-got-a-job-batch        → Batch processing with parallel workers
+  /singhz-got-a-job-patterns     → Analyze rejection patterns
+  /singhz-got-a-job-followup     → Follow-up cadence tracker
+
+Tip: Paste a job URL or description directly to run the full pipeline.
+```
+
+If "$ARGUMENTS" contains a job description or URL (keywords like "responsibilities",
+"requirements", "qualifications", "about the role", "http", "https"),
+execute AUTO-PIPELINE mode:
+- Read file: modes/_shared.md
+- Read file: modes/auto-pipeline.md
+- Then evaluate the JD provided in $ARGUMENTS
+"""

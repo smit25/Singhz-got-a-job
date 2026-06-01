@@ -1,4 +1,4 @@
-# Career-Ops
+# Singhz Got a Job
 
 > AI-powered job search pipeline: scrape → rank → tailor → apply.
 
@@ -32,8 +32,8 @@ Before you begin, install:
 ### Step 1 — Clone and install
 
 ```bash
-git clone https://github.com/santifer/career-ops
-cd career-ops
+git clone https://github.com/smit25/Singhz-got-a-job.git
+cd Singhz-got-a-job
 npm install
 npx playwright install chromium
 ```
@@ -45,7 +45,7 @@ npx playwright install chromium
 ### Step 2 — Open Claude Code in this folder
 
 ```bash
-cd career-ops
+cd Singhz-got-a-job
 claude
 ```
 
@@ -58,7 +58,7 @@ Or open the folder in VS Code / Cursor and launch Claude Code from there.
 Type this in Claude Code:
 
 ```
-/career-ops
+/singhz-got-a-job
 ```
 
 The system will guide you through setup. You'll need to provide:
@@ -81,96 +81,107 @@ Open `portals.yml` and edit the `title_filter.positive` section:
 ```yaml
 title_filter:
   positive:
-    - "Software Engineer"
-    - "Backend Engineer"
+    - "Machine Learning Engineer"
+    - "Data Scientist"
     - "AI Engineer"
     # add your target role keywords here
   negative:
+    - "Product Manager"
     - "Junior"
-    - "Intern"
     # add roles you want to exclude
 ```
 
-These keywords filter every result from every portal. Only jobs whose titles match at least one positive keyword (and zero negative keywords) will be shown to you.
+These keywords filter every result from every portal. Your `portals.yml` is also scoped to **US-based** roles. Only jobs whose titles match at least one positive keyword (and zero negative keywords) will be shown to you.
+
+Also set up **`data/form-answers.yml`** (copy from `templates/form-answers.example.yml`) so salary, visa, and “how did you hear” questions are answered once and reused on every apply.
 
 ---
 
 ### Step 5 — Run your first scan
 
 ```
-/career-ops scan
+/singhz-got-a-job scan
 ```
 
-This searches all enabled portals in `portals.yml` for new listings matching your keywords. Results land in `data/pipeline.md`.
+This searches all enabled portals in `portals.yml` for new listings matching your keywords. Results land in `data/pipeline.md` (**Pendientes**).
+
+Zero-token API scan (optional): `npm run scan`
 
 ---
 
-### Step 6 — Evaluate what was found
+### Step 6 — Choose your path to the apply queue
+
+**Path A — Evaluate first (recommended when unsure):**
 
 ```
-/career-ops pipeline
+/singhz-got-a-job pipeline
 ```
 
-This evaluates every pending URL in your inbox. Each job gets a full 6-block report (A–F) with a score from 1–5. Reports are saved to `reports/`.
-
-Or evaluate a single job directly:
+Evaluates every pending URL in **Pendientes**. Each job gets a report (blocks A–G) with a 1–5 score in `reports/`. Then:
 
 ```
-/career-ops oferta https://jobs.example.com/apply/12345
+/singhz-got-a-job approve
 ```
+
+Pick which evaluated jobs go to `data/apply-queue.md`.
+
+Single job: `/singhz-got-a-job oferta https://jobs.example.com/apply/12345`
+
+**Path B — Skip evaluation (you already know you want to apply):**
+
+1. In `data/pipeline.md`, mark rows `[x]` you want (or delete the rest).
+2. Run:
+
+```
+/singhz-got-a-job fast-queue
+```
+
+Moves only those jobs into `data/apply-queue.md` with status `Queued` (no report, no score).
 
 ---
 
-### Step 7 — Review and approve jobs to apply to
+### Step 7 — Generate tailored CVs (optional)
 
 ```
-/career-ops approve
-```
-
-Shows you all evaluated jobs. You pick which ones to move to the apply queue. Jobs below 4.0/5 are flagged — the system recommends against applying but won't stop you.
-
----
-
-### Step 8 — Generate tailored CVs
-
-```
-/career-ops pdf
+/singhz-got-a-job pdf
 ```
 
 Generates an ATS-optimized PDF for each approved job, tailored to that specific JD. Saved to `output/`.
 
 ---
 
-### Step 9 — Apply
+### Step 8 — Apply
 
 **Single job:**
 
 ```
-/career-ops apply
+/singhz-got-a-job apply
 ```
 
-Opens the form, reads all questions, generates answers from your CV and report, formats everything for copy-paste.
+Opens the form, reads all questions, generates answers from your CV (+ report if you have one). Uses `data/form-answers.yml` for questions you answered before.
 
 **Multiple jobs at once:**
 
 ```
-/career-ops batch-apply
+/singhz-got-a-job batch-apply
 ```
 
+**Important:** Only processes rows in `data/apply-queue.md` with status **`Queued`** — not everything in `pipeline.md` Procesados.
+
 4-phase process:
-1. Extracts all form fields from every approved job URL (runs in parallel)
-2. Collects any unanswered questions from you in one pass
-3. Fills every form field — personal details auto-filled from your profile, essay questions answered from your CV and report, PDF attached
+1. Prints a manifest (N jobs from apply-queue only), then extracts form fields (up to 3 URLs in parallel)
+2. Fills known answers from `config/profile.yml` + `data/form-answers.yml`; asks you once for anything new (saved to form-answers for next time)
+3. Fills each form in the browser — PDF attached when available
 4. Stops before Submit — you review and click Submit for each one
 
 ---
 
-### Step 10 — Track and follow up
+### Step 9 — Track and follow up
 
 ```
-/career-ops tracker       # see all application statuses
-/career-ops followup      # follow-up cadence and draft messages
-/career-ops patterns      # what's working, what isn't
+/singhz-got-a-job tracker       # see all application statuses
+/singhz-got-a-job followup      # follow-up cadence and draft messages
+/singhz-got-a-job patterns      # what's working, what isn't
 ```
 
 ---
@@ -255,7 +266,7 @@ The auto-fill engine supports every major application platform:
 | SmartRecruiters | `jobs.smartrecruiters.com` | Playwright |
 | Custom / any other URL | Any | Playwright best-effort |
 
-**What gets auto-filled:** name, email, phone, LinkedIn URL, location, work authorization, visa status — all from `config/profile.yml`. Essay questions are generated from your CV and the job evaluation report. Resume PDF is attached automatically.
+**What gets auto-filled:** name, email, phone, LinkedIn URL, location, work authorization, visa status — all from `config/profile.yml`. Reusable form Q&A (salary, sponsorship, “how did you hear,” etc.) is stored in `data/form-answers.yml` — answer once, similar questions are skipped on future applies. Essay questions are generated from your CV and the job evaluation report. Resume PDF is attached automatically.
 
 **What you always do yourself:** click Submit.
 
@@ -288,30 +299,31 @@ Every job gets a structured evaluation report with a score from 1–5:
 
 | Command | What it does |
 |---------|-------------|
-| `/career-ops scan` | Scan all portals for new listings matching your keywords |
-| `/career-ops pipeline` | Evaluate all pending URLs from `data/pipeline.md` |
-| `/career-ops oferta` | Evaluate a single job (paste URL or JD text) |
-| `/career-ops ofertas` | Compare and rank two or more jobs side by side |
-| `/career-ops approve` | Review evaluated jobs and pick which to apply to |
-| `/career-ops pdf` | Generate a tailored ATS-optimized CV PDF for a specific role |
-| `/career-ops apply` | Live form assistant for a single application |
-| `/career-ops batch-apply` | Fill all approved application forms in one session |
-| `/career-ops batch` | Evaluate 10+ jobs in parallel with sub-agents |
-| `/career-ops tracker` | View all application statuses in one table |
-| `/career-ops patterns` | Analyze what's working, what's getting rejected |
-| `/career-ops followup` | Follow-up timing tracker and draft message generator |
-| `/career-ops deep` | Deep research on a specific company |
-| `/career-ops contacto` | Find a LinkedIn contact at a company and draft an outreach message |
-| `/career-ops interview-prep` | Generate STAR stories and interview intel for a company |
-| `/career-ops training` | Evaluate a course or certification against your career goals |
-| `/career-ops project` | Evaluate a portfolio project idea |
+| `/singhz-got-a-job scan` | Scan all portals for new listings matching your keywords |
+| `/singhz-got-a-job pipeline` | Evaluate all pending URLs from `data/pipeline.md` |
+| `/singhz-got-a-job oferta` | Evaluate a single job (paste URL or JD text) |
+| `/singhz-got-a-job ofertas` | Compare and rank two or more jobs side by side |
+| `/singhz-got-a-job approve` | Review evaluated jobs and pick which to apply to |
+| `/singhz-got-a-job fast-queue` | Move `[x]` rows from `pipeline.md` to apply-queue (no evaluation) |
+| `/singhz-got-a-job pdf` | Generate a tailored ATS-optimized CV PDF for a specific role |
+| `/singhz-got-a-job apply` | Live form assistant for a single application |
+| `/singhz-got-a-job batch-apply` | Fill all approved application forms in one session |
+| `/singhz-got-a-job batch` | Evaluate 10+ jobs in parallel with sub-agents |
+| `/singhz-got-a-job tracker` | View all application statuses in one table |
+| `/singhz-got-a-job patterns` | Analyze what's working, what's getting rejected |
+| `/singhz-got-a-job followup` | Follow-up timing tracker and draft message generator |
+| `/singhz-got-a-job deep` | Deep research on a specific company |
+| `/singhz-got-a-job contacto` | Find a LinkedIn contact at a company and draft an outreach message |
+| `/singhz-got-a-job interview-prep` | Generate STAR stories and interview intel for a company |
+| `/singhz-got-a-job training` | Evaluate a course or certification against your career goals |
+| `/singhz-got-a-job project` | Evaluate a portfolio project idea |
 
 ---
 
 ## File Structure
 
 ```
-career-ops/
+Singhz-got-a-job/
 ├── cv.md                     ← your CV (canonical source of truth — edit freely)
 ├── article-digest.md         ← proof points, portfolio highlights (optional but recommended)
 ├── portals.yml               ← portal config: keywords, search queries, on/off toggles
@@ -323,7 +335,8 @@ career-ops/
 │   ├── _profile.md           ← your personalization layer (never overwritten by updates)
 │   ├── _shared.md            ← system scoring logic (auto-updated)
 │   ├── apply.md              ← single-form assistant
-│   ├── batch-apply.md        ← batch form filler
+│   ├── batch-apply.md        ← batch form filler (apply-queue Queued rows only)
+│   ├── fast-queue.md         ← pipeline → apply-queue without evaluation
 │   ├── oferta.md             ← job evaluation (A–G blocks)
 │   └── ...                   ← all other modes
 │
@@ -331,6 +344,7 @@ career-ops/
 │   ├── applications.md       ← master application tracker
 │   ├── pipeline.md           ← inbox: pending URLs waiting for evaluation
 │   ├── apply-queue.md        ← approved jobs queued for application
+│   ├── form-answers.yml      ← reusable form Q&A (answer once, reuse on future applies)
 │   └── scan-history.tsv      ← dedup log (already-seen listings are skipped)
 │
 ├── reports/                  ← evaluation reports: 001-company-name-2026-01-01.md
@@ -399,6 +413,23 @@ This system is not a mass-apply tool. It is built to help you find roles where t
 - Never submits an application without your explicit review and action
 - Actively discourages applying to jobs below 4.0/5
 - Designed around 5 excellent applications, not 500 mediocre ones
+
+---
+
+## Cursor / Claude permissions (fewer approval prompts)
+
+`batch-apply` and `scan` use Playwright (browser) and file edits. To reduce “Allow this?” prompts:
+
+**Cursor (IDE)**  
+- **Settings → Cursor Settings → Agents** — enable auto-run for trusted commands where available (e.g. allowlisted terminal, file writes).  
+- **Settings → Features → Composer / Agent** — review “Yolo mode” or auto-apply options for your comfort level (still review before Submit on real applications).  
+- Add a **project rule** in `.cursor/rules/` stating that `singhz-got-a-job` modes may read/write `data/`, `config/`, and use the browser for apply flows.
+
+**Claude Code (CLI)**  
+- Run with permission flags when you trust the session, e.g. `claude --dangerously-skip-permissions` (only in this repo, when you understand the risk).  
+- Or approve “always allow” for this workspace when Cursor/Claude offers it for terminal and MCP browser tools.
+
+The system will **never** click Submit on an application — that stays manual even with full permissions.
 
 ---
 

@@ -1,6 +1,6 @@
 # Mode: batch-apply — Batch Application Orchestrator
 
-Fill and submit applications for all jobs in the approve queue. Human reviews each completed form before clicking Submit — Claude fills everything else.
+Fill and submit applications for **Queued rows in `data/apply-queue.md` only** (see Scope lock). Human reviews each completed form before clicking Submit — Claude fills everything else.
 
 ## Architecture
 
@@ -11,7 +11,7 @@ Phase 1: Form Extraction  (parallel subagents, read-only)
   → Tag each field: answered | partial | needs_input
 
 Phase 2: Gap Collection   (user-facing, one pass)
-  → Aggregate ALL needs_input questions across all jobs
+  → Aggregate ALL needs_input questions across manifest jobs only (N from apply-queue)
   → Deduplicate common questions (salary, visa, etc.)
   → Ask user once — answers fan back out to all matching forms
 
@@ -30,44 +30,100 @@ Phase 4: Final Review     (user-driven, one job at a time)
 
 ---
 
+## Scope lock — apply queue ONLY (CRITICAL)
+
+**The job list for batch-apply is ONLY `data/apply-queue.md` table rows where the Status column is exactly `Queued`.**
+
+| Source | Use in batch-apply? |
+|--------|---------------------|
+| `data/apply-queue.md` → Status = `Queued` | **YES — sole source of jobs** |
+| `data/pipeline.md` (Pendientes, Procesados, fast-queued) | **NO** |
+| `data/scan-history.tsv` | **NO** |
+| `data/applications.md` | **NO** (update only after user submits) |
+| `reports/` | **NO** for building the job list (read per-job only if Report column has a link) |
+| Conversation memory / earlier scan counts | **NO** |
+
+**Before Phase 1**, read `data/apply-queue.md` and build an explicit manifest:
+
+```text
+batch-apply manifest — {N} job(s) from apply-queue (Queued only)
+
+  1. {Company} — {Role} | {url}
+  2. ...
+```
+
+- **N** = number of table data rows with Status `Queued` (ignore header/separator lines).
+- If **N = 0**, stop and show the empty-queue message (do not open URLs).
+- If **N ≠** what the user expects, print the manifest and ask them to fix `apply-queue.md` before continuing.
+- **Do not** process Procesados, fast-queued pipeline lines, or scan history even if N is small and other files list more URLs.
+
+**Wrong:** "Processing 25 jobs" when apply-queue has 3 `Queued` rows.  
+**Right:** "Processing 3 jobs from apply-queue" and only those 3 URLs are opened.
+
+---
+
 ## Prerequisites
 
 1. `data/apply-queue.md` must have rows with status `Queued`
-2. PDF must exist in `output/` for each job (or generate via `/career-ops pdf` first)
+2. PDF must exist in `output/` for each job (or generate via `/singhz-got-a-job pdf` first)
 3. For LinkedIn Easy Apply: user must be logged into LinkedIn in Chrome (`claude --chrome` mode)
 
 If apply-queue.md is empty or has no `Queued` rows:
 ```
-Apply queue is empty. Run /career-ops approve first to select jobs.
+Apply queue is empty. Run /singhz-got-a-job approve (after eval) or /singhz-got-a-job fast-queue (from pipeline.md).
 ```
 
 ---
 
 ## Phase 1 — Form Extraction
 
-Read `data/apply-queue.md` → collect all rows with status `Queued`.
+### Step 0 — Build manifest (mandatory)
 
-For each job, extract the form **in parallel** (subagents, background):
+1. Read **only** `data/apply-queue.md`.
+2. Parse the markdown table: each data row where the last column is exactly `Queued`.
+3. Extract `{company, role, url, report}` from that row (Report may be `—`).
+4. Print the **batch-apply manifest** (see Scope lock). **N = row count.**
+5. If the user or logs mention a different number (e.g. 25), **trust the manifest** — do not add URLs from other files.
+
+### Step 1 — Extract forms (manifest URLs only)
+
+For **each of the N jobs in the manifest** (and no others), extract the form in parallel (max 3 subagents at a time):
 
 ```
-For each queued job:
+For each manifest job (1..N only):
   1. Navigate to URL with Playwright (browser_navigate + browser_snapshot)
   2. Detect platform (see Platform Detection below)
   3. Extract all visible form fields
-  4. Match fields to Section H of the report
-  5. Tag each field
-  6. Update apply-queue.md status: Queued → Form Extracted
+  4. If Report column has a link → load Section H; else skip Section H
+  5. Tag each field (include form-answers.yml bank matching)
+  6. Update apply-queue.md: only this row's Status Queued → Form Extracted
 ```
 
-Launch up to 3 extraction subagents in parallel (read-only, no form interaction):
+**Do not** launch extraction for URLs not on the manifest.
+
+### Subagent prompt (Phase 1 only)
+
+Pass the **exact URL list from the manifest** — never "all pipeline jobs."
 
 ```python
 Agent(
   subagent_type="general-purpose",
-  prompt="Extract form fields from {url}. Load report at {report_path}. Find Section H (Draft Application Answers). For each visible form field, check if Section H has an answer. Return JSON: {fields: [{label, type, answer_status, draft_answer, form_selector}]}",
+  prompt="""BATCH-APPLY FORM EXTRACTION — scoped job only.
+
+DO NOT read pipeline.md, scan-history.tsv, or applications.md for URLs.
+
+Job: {company} — {role}
+URL: {url}
+Report: {report_path or 'none'}
+
+Extract form fields from this URL only. If report exists, use Section H.
+Return JSON: {company, role, url, fields: [{label, type, answer_status, draft_answer, form_selector}]}
+""",
   run_in_background=True
 )
 ```
+
+**Do not** load `modes/_shared.md` into extraction subagents (keeps scope tight). Parent agent loads `batch-apply.md` + `form-answers.yml`.
 
 ### Platform Detection
 
@@ -89,7 +145,8 @@ For each extracted field:
 |-----|---------|--------|
 | `answered` | Section H has a complete answer | Copy directly |
 | `partial` | Section H has a relevant answer that needs adaptation | Adapt from H |
-| `needs_input` | Not in Section H, cannot answer from CV | Ask user |
+| `bank` | Matched entry in `data/form-answers.yml` | Copy from answer bank |
+| `needs_input` | Not in Section H, CV, profile, or answer bank | Ask user |
 | `auto` | Deterministic answer from profile.yml (name, email, phone, LinkedIn, location, visa) | Fill from config/profile.yml |
 | `upload` | File upload field (resume, cover letter) | Use PDF from output/ |
 
@@ -106,9 +163,61 @@ For each extracted field:
 
 ---
 
+## Answer bank — `data/form-answers.yml` (CRITICAL)
+
+**Read at the start of Phase 1** (create from `templates/form-answers.example.yml` if missing).
+
+Reusable Q&A you (or the agent) save so **similar questions are not asked again** across batch-apply sessions.
+
+### Matching rules
+
+For each extracted form field label (normalized: lowercase, trim):
+
+1. **`company_answers`** (if `company` on the job matches): if label contains any phrase in `match` → use that `answer` → tag `bank`.
+2. **`answers`** with `scope: shared`**: if label contains any phrase in `match` → use `answer` → tag `bank`.
+3. **Do NOT** match shared bank entries to company-specific prompts unless the `match` list is clearly generic (e.g. salary, visa).  
+   - "Why do you want to work at {Company}?" / "Why {Company}?" → **never** match `hear_about` or other shared ids; treat as `needs_input` or Section H / generate.
+4. If multiple entries match, prefer **longest match phrase**, then **company_answers** over shared `answers`.
+
+### After Phase 1 extraction
+
+Re-run classification: any `needs_input` field that matches the bank → change to `bank` with `draft_answer` from the file.
+
+### After user answers in Phase 2 (PERSIST)
+
+For **every new answer** the user provides (and any override of a suggested answer):
+
+1. **Append or update** `data/form-answers.yml`:
+   - If an existing entry already covers this question type → update `answer` and `updated` (YYYY-MM-DD).
+   - Else create a new entry:
+     ```yaml
+     - id: {slug-from-topic}   # e.g. years_experience_python
+       scope: shared           # or per_company — see below
+       match:
+         - {phrase1}
+         - {phrase2}
+       answer: "{exact user text}"
+       updated: "{today}"
+     ```
+2. Derive `match` phrases from the **actual form labels** seen in extraction (2–6 short substrings, lowercase).
+3. **`scope: shared`** for salary, visa, authorization, relocation, start date, "how did you hear", years-of-experience-with-X, etc.
+4. **`company_answers`** only when the user gave a **company-specific** narrative (why this company, mission fit). Include `company: "{Company Name}"` and targeted `match` phrases.
+5. Tell the user briefly: `Saved to form-answers.yml — won't ask again for similar questions.`
+
+**Never delete** existing bank entries unless the user asks. **Never** store passwords or SSNs.
+
+---
+
 ## Phase 2 — Gap Collection
 
-After all extractions complete, aggregate every `needs_input` field across all jobs.
+After all extractions complete for **manifest jobs only**, aggregate every field still tagged `needs_input` (bank-matched fields are already resolved).
+
+**Before asking the user**, show how many were auto-filled from the answer bank:
+
+```text
+Answer bank: {N} fields matched from data/form-answers.yml (salary, visa, etc.)
+Still need your input: {M} questions
+```
 
 **Deduplication**: Group by semantic similarity. Common question types appear across many forms:
 - "Expected salary" / "Compensation expectations" / "Desired salary" → one group
@@ -165,9 +274,12 @@ Present to user in a single block:
 
 **If user wants to skip a question**: mark as `skipped` — Claude will leave the field blank, user fills manually during review.
 
-Once user provides all answers, confirm:
-```
-✅ Got all answers. Ready to fill {N} forms.
+Once user provides all answers:
+
+1. **Persist** each new answer to `data/form-answers.yml` (see Answer bank section above).
+2. Confirm:
+```text
+✅ Got all answers. Saved {K} to form-answers.yml. Ready to fill {N} forms.
 ```
 
 Update apply-queue.md status: `Form Extracted` → `Answers Ready`
@@ -257,7 +369,7 @@ After filling each form, show the user a snapshot and a structured summary:
     p99 latency under 200ms. Reduced hallucination rate by 60%..."
 
   How did you hear about us?
-  > "Found via career-ops portal scan, evaluated against my criteria,
+  > "Found via singhz-got-a-job portal scan, evaluated against my criteria,
     scored highest of the week."
   ─────────────────────────────────────────────────────────────
 
@@ -297,9 +409,9 @@ After filling each form, show the user a snapshot and a structured summary:
   ⏩ Databricks — (skipped, will revisit)
 
   Next steps:
-  → /career-ops followup    check follow-up cadence in 7 days
-  → /career-ops contacto    LinkedIn outreach to hiring manager
-  → /career-ops batch-apply restart to process remaining queue
+  → /singhz-got-a-job followup    check follow-up cadence in 7 days
+  → /singhz-got-a-job contacto    LinkedIn outreach to hiring manager
+  → /singhz-got-a-job batch-apply restart to process remaining queue
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -346,10 +458,14 @@ Open Chrome, log into LinkedIn, then say "ready".
 
 ## Resumability
 
-`data/apply-queue.md` is the state file. Re-run `/career-ops batch-apply` at any time:
+`data/apply-queue.md` is the state file. Re-run `/singhz-got-a-job batch-apply` at any time:
+
+- Rebuild the manifest from **Queued** rows only (count may be less than Procesados in pipeline.md).
 - `Queued` → will extract form
 - `Form Extracted` → will re-use extracted fields (or re-extract if stale)
 - `Answers Ready` → will go straight to Phase 3 (form filling)
 - `Applied` → skipped
 
 **Idempotent**: Running batch-apply twice on the same queue is safe. Already-applied jobs are skipped.
+
+**Reminder:** `pipeline.md` may list many `fast-queued` lines under Procesados; those are **not** in scope unless the same URL is also a `Queued` row in `apply-queue.md`.

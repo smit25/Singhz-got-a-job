@@ -134,6 +134,36 @@ function buildTitleFilter(titleFilter) {
   };
 }
 
+// US state/territory abbreviations — ", CA" style locations from ATS APIs
+const US_STATE_ABBRS = new Set([
+  'al', 'ak', 'az', 'ar', 'ca', 'co', 'ct', 'de', 'dc', 'fl', 'ga', 'hi', 'id', 'il', 'in',
+  'ia', 'ks', 'ky', 'la', 'me', 'md', 'ma', 'mi', 'mn', 'ms', 'mo', 'mt', 'ne', 'nv', 'nh',
+  'nj', 'nm', 'ny', 'nc', 'nd', 'oh', 'ok', 'or', 'pa', 'ri', 'sc', 'sd', 'tn', 'tx', 'ut',
+  'vt', 'va', 'wa', 'wv', 'wi', 'wy', 'pr',
+]);
+
+function hasUsStateSuffix(location) {
+  const match = location.match(/,\s*([a-z]{2})\b/i);
+  return match ? US_STATE_ABBRS.has(match[1].toLowerCase()) : false;
+}
+
+function buildLocationFilter(locationFilter) {
+  if (!locationFilter) return () => true;
+
+  const positive = (locationFilter.positive || []).map(k => k.toLowerCase());
+  const negative = (locationFilter.negative || []).map(k => k.toLowerCase());
+  const allowUnknown = locationFilter.allow_unknown !== false;
+
+  return (location) => {
+    const lower = (location || '').trim().toLowerCase();
+    if (!lower) return allowUnknown;
+    if (negative.some(k => lower.includes(k))) return false;
+    if (positive.some(k => lower.includes(k))) return true;
+    if (hasUsStateSuffix(lower)) return true;
+    return false;
+  };
+}
+
 // ── Dedup ───────────────────────────────────────────────────────────
 
 function loadSeenUrls() {
@@ -264,6 +294,7 @@ async function main() {
   const config = parseYaml(readFileSync(PORTALS_PATH, 'utf-8'));
   const companies = config.tracked_companies || [];
   const titleFilter = buildTitleFilter(config.title_filter);
+  const locationFilter = buildLocationFilter(config.location_filter);
 
   // 2. Filter to enabled companies with detectable APIs
   const targets = companies
@@ -285,6 +316,7 @@ async function main() {
   const date = new Date().toISOString().slice(0, 10);
   let totalFound = 0;
   let totalFiltered = 0;
+  let totalLocationFiltered = 0;
   let totalDupes = 0;
   const newOffers = [];
   const errors = [];
@@ -299,6 +331,10 @@ async function main() {
       for (const job of jobs) {
         if (!titleFilter(job.title)) {
           totalFiltered++;
+          continue;
+        }
+        if (!locationFilter(job.location)) {
+          totalLocationFiltered++;
           continue;
         }
         if (seenUrls.has(job.url)) {
@@ -335,6 +371,7 @@ async function main() {
   console.log(`Companies scanned:     ${targets.length}`);
   console.log(`Total jobs found:      ${totalFound}`);
   console.log(`Filtered by title:     ${totalFiltered} removed`);
+  console.log(`Filtered by location:  ${totalLocationFiltered} removed`);
   console.log(`Duplicates:            ${totalDupes} skipped`);
   console.log(`New offers added:      ${newOffers.length}`);
 
@@ -357,7 +394,7 @@ async function main() {
     }
   }
 
-  console.log(`\n→ Run /career-ops pipeline to evaluate new offers.`);
+  console.log(`\n→ Run /singhz-got-a-job pipeline to evaluate new offers.`);
   console.log('→ Share results and get help: https://discord.gg/8pRpHETxa4');
 }
 

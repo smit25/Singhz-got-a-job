@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * verify-pipeline.mjs — Health check for career-ops pipeline integrity
+ * verify-pipeline.mjs — Health check for singhz-got-a-job pipeline integrity
  *
  * Checks:
  * 1. All statuses are canonical (per states.yml)
@@ -11,7 +11,7 @@
  * 6. No pending TSVs in tracker-additions/ (only in merged/ or archived/)
  * 7. states.yml canonical IDs for cross-system consistency
  *
- * Run: node career-ops/verify-pipeline.mjs
+ * Run: node singhz-got-a-job/verify-pipeline.mjs
  */
 
 import { readFileSync, readdirSync, existsSync, mkdirSync } from 'fs';
