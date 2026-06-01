@@ -1,0 +1,240 @@
+- generic [ref=e1]:
+  - generic [ref=e10]:
+    - generic [ref=e12]:
+      - banner [ref=e13]:
+        - generic [ref=e14]:
+          - link "Hugging Face" [ref=e16] [cursor=pointer]:
+            - /url: /huggingface/
+            - img "Hugging Face" [ref=e17]
+          - heading "Open-Source Machine Learning Engineer - US Remote" [level=1] [ref=e18]
+          - generic [ref=e19]:
+            - paragraph [ref=e20]:
+              - strong [ref=e22]: Remote
+              - text: ·Open Source·Full time
+            - generic [ref=e25]:
+              - generic [ref=e26]: New York,
+              - generic [ref=e27]: New York,
+              - text: United States
+      - generic [ref=e28]:
+        - navigation [ref=e30]:
+          - link "Overview" [ref=e32] [cursor=pointer]:
+            - /url: /huggingface/j/19A136F8E2/
+          - link "Application" [ref=e33]:
+            - /url: /huggingface/j/19A136F8E2/apply/
+        - progressbar "Scroll progress" [ref=e306]
+        - main [ref=e34]:
+          - generic [ref=e35]:
+            - generic [ref=e38]:
+              - generic [ref=e39]:
+                - generic [ref=e40]:
+                  - img [ref=e41]
+                  - strong [ref=e43]: Autofill application
+                - paragraph [ref=e44]: "Save time by importing your resume in one of the following formats: .pdf, .doc, .docx, .odt, or .rtf."
+              - button "Import resume from" [ref=e48] [cursor=pointer]:
+                - generic [ref=e49]:
+                  - generic [ref=e50]: Import resume from
+                  - img
+            - generic [ref=e51]: "* Required fields"
+            - generic [ref=e52]:
+              - generic [ref=e53]:
+                - heading "Personal information" [level=2] [ref=e54]
+                - button "Clear Personal information" [ref=e55] [cursor=pointer]:
+                  - img [ref=e56]
+                  - text: Clear
+              - generic [ref=e58]:
+                - generic [ref=e60]:
+                  - generic [ref=e61]:
+                    - strong [ref=e63]: "*"
+                    - strong [ref=e66]: First name
+                  - textbox "First name" [ref=e69]: Saumya
+                - generic [ref=e71]:
+                  - generic [ref=e72]:
+                    - strong [ref=e74]: "*"
+                    - strong [ref=e77]: Last name
+                  - textbox "Last name" [ref=e80]: Singh
+                - generic [ref=e82]:
+                  - generic [ref=e83]:
+                    - strong [ref=e85]: "*"
+                    - strong [ref=e88]: Email
+                  - textbox "Email" [ref=e91]: saumya.singh.dsc@gmail.com
+                - generic [ref=e92]:
+                  - generic [ref=e93]:
+                    - generic [ref=e95]:
+                      - strong [ref=e97]: Phone
+                      - text: (Optional)
+                    - generic [ref=e101] [cursor=pointer]:
+                      - combobox "Telephone country code" [ref=e103]:
+                        - generic [ref=e105]: "+1"
+                      - textbox "Phone (Optional)" [ref=e107]: "5512635436"
+                  - generic [ref=e110]: The hiring team may use this number to contact you about this job.
+            - generic [ref=e111]:
+              - generic [ref=e112]:
+                - heading "Profile" [level=2] [ref=e113]
+                - button "Clear Profile" [ref=e114] [cursor=pointer]:
+                  - img [ref=e115]
+                  - text: Clear
+              - generic [ref=e117]:
+                - generic [ref=e119]:
+                  - paragraph [ref=e120]: Education (Optional)
+                  - button "Add Education" [ref=e121] [cursor=pointer]: + Add
+                - generic [ref=e123]:
+                  - paragraph [ref=e124]: Experience (Optional)
+                  - button "Add Experience" [ref=e125] [cursor=pointer]: + Add
+                - generic [ref=e128]:
+                  - generic [ref=e129]:
+                    - strong [ref=e131]: "*"
+                    - generic [ref=e132]:
+                      - strong [ref=e134]: Resume
+                      - img [ref=e136]
+                  - generic [ref=e139]:
+                    - generic [ref=e308]:
+                      - img [ref=e327]
+                      - generic [ref=e316]:
+                        - generic [ref=e317]: cv-saumya-singh-
+                        - generic [ref=e318]: master.pdf
+                      - menu [ref=e319]:
+                        - group [ref=e320]:
+                          - link "view cv-saumya-singh-master.pdf" [ref=e321] [cursor=pointer]:
+                            - /url: https://workable-application-form.s3.us-east-1.amazonaws.com/tmp/ttl-1d/production/91f0e975-9446-91f1-9cea-b8c7b6a2d175?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA27KPZUMHP7SV6K43%2F20260601%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260601T195409Z&X-Amz-Expires=21600&X-Amz-Signature=9c811653b21f49643377e4dfef5ca2560456677b51d1931c15fb8f82cb207720&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject
+                            - generic [ref=e322]:
+                              - img
+                          - button "delete cv-saumya-singh-master.pdf" [ref=e323] [cursor=pointer]:
+                            - generic [ref=e324]:
+                              - img
+                    - generic [ref=e146]:
+                      - button "Replace file" [ref=e325] [cursor=pointer]
+                      - text: or drag and drop here
+                    - button "Resume Replace file" [ref=e326]
+                - generic [ref=e150]:
+                  - generic [ref=e151]:
+                    - strong [ref=e153]: "*"
+                    - strong [ref=e156]: Github profile
+                  - textbox "Github profile" [ref=e159]: https://github.com/saumyasinghz
+                - generic [ref=e161]:
+                  - generic [ref=e162]:
+                    - strong [ref=e164]: "*"
+                    - strong [ref=e167]: Linkedin
+                  - textbox "Linkedin" [ref=e170]: https://linkedin.com/in/saumya-singh
+            - generic [ref=e171]:
+              - generic [ref=e172]:
+                - heading "Details" [level=2] [ref=e173]
+                - button "Clear Details" [ref=e174] [cursor=pointer]:
+                  - img [ref=e175]
+                  - text: Clear
+              - generic [ref=e177]:
+                - generic [ref=e179]:
+                  - generic [ref=e180]:
+                    - strong [ref=e182]: "*"
+                    - strong [ref=e185]: Cover letter
+                  - textbox "Cover letter" [ref=e188]: "GPU-poor and proud of it 🤗 At Hugging Face, open-source isn't just a distribution model — it's a philosophy about who gets to build with AI. That's why I want to work here. My path into ML has consistently pushed me toward making systems usable beyond my own team. At Anote AI, I built a multimodal synthetic data engine and shipped it as a PyPI package — not because it was required, but because the engineering decisions that make a library maintainable and composable are more interesting than the ones that keep code private. I wrote it with a clean external API surface, handled versioning, and documented it for users I'd never meet. That pattern shows up in my research too. My IEEE paper on imputation methods wasn't just about proving Gaussian Copula was the better algorithm — it was about building a reproducible benchmark that other teams could run on their own data. Open methodology is how you find out whether your results actually hold. I use the transformers library regularly: fine-tuning on low-resource domains at Anote AI, building retrieval pipelines, evaluating embedding quality. I want to contribute to these problems directly, not just consume the library's work. Specifically, I'm interested in contributing to evaluation tooling and synthetic data generation utilities — areas where I have production experience and where I see real gaps in the ecosystem. I'm finishing my MS CS at NYU in May 2026 and can start immediately. I'd bring production instinct from shipping ML systems that external teams rely on, a focus on data quality (self-supervised correction loops, 35% quality improvement), and the habit of publishing methodology openly."
+                - generic [ref=e190]:
+                  - generic [ref=e192]:
+                    - strong [ref=e194]: Expected salary
+                    - text: (Optional)
+                  - textbox "Expected salary" [ref=e197]: $120K-$150K base (USD), flexible on equity
+                - generic [ref=e199]:
+                  - generic [ref=e201]:
+                    - strong [ref=e203]: Notice period / availability
+                    - text: (Optional)
+                  - generic [ref=e204]:
+                    - generic [ref=e207]:
+                      - combobox "Notice period / availability" [expanded] [ref=e208]:
+                        - listbox [ref=e330]:
+                          - option "Available immediately" [ref=e331]:
+                            - generic [ref=e333] [cursor=pointer]: Available immediately
+                          - option "1 week" [ref=e334]:
+                            - generic [ref=e336] [cursor=pointer]: 1 week
+                          - option "2 weeks" [ref=e337]:
+                            - generic [ref=e339] [cursor=pointer]: 2 weeks
+                          - option "3 weeks" [ref=e340]:
+                            - generic [ref=e342] [cursor=pointer]: 3 weeks
+                          - option "1 month" [ref=e343]:
+                            - generic [ref=e345] [cursor=pointer]: 1 month
+                          - option "2 months" [ref=e346]:
+                            - generic [ref=e348] [cursor=pointer]: 2 months
+                          - option "3 months or more" [ref=e349]:
+                            - generic [ref=e351] [cursor=pointer]: 3 months or more
+                      - img
+                    - generic [ref=e356]:
+                      - img
+                      - searchbox "Search" [active] [ref=e357]
+                    - textbox [ref=e209]
+                - generic [ref=e211]:
+                  - generic [ref=e213]:
+                    - strong [ref=e215]: How did you hear about us?
+                    - text: (Optional)
+                  - textbox "How did you hear about us?" [ref=e218]: Company careers page / job board
+                - generic [ref=e220]:
+                  - generic [ref=e221]:
+                    - strong [ref=e223]: "*"
+                    - strong [ref=e226]: Can you confirm that everything in this application is true and your own, including your experience and identity?
+                  - radiogroup "Can you confirm that everything in this application is true and your own, including your experience and identity?" [ref=e227]:
+                    - radio "Can you confirm that everything in this application is true and your own, including your experience and identity? YES" [ref=e228] [cursor=pointer]:
+                      - generic [ref=e229]:
+                        - radio [ref=e230]
+                        - generic [ref=e232]:
+                          - img
+                          - generic [ref=e233]: "YES"
+                    - radio "Can you confirm that everything in this application is true and your own, including your experience and identity? NO" [ref=e234] [cursor=pointer]:
+                      - generic [ref=e235]:
+                        - radio [ref=e236]
+                        - generic [ref=e238]:
+                          - img
+                          - generic [ref=e239]: "NO"
+                - generic [ref=e241]:
+                  - generic [ref=e242]:
+                    - strong [ref=e244]: "*"
+                    - strong [ref=e247]: Did you start your first written answer below with the exact phrase we asked for in the job description?
+                  - radiogroup "Did you start your first written answer below with the exact phrase we asked for in the job description?" [ref=e248]:
+                    - radio "Did you start your first written answer below with the exact phrase we asked for in the job description? YES" [ref=e249] [cursor=pointer]:
+                      - generic [ref=e250]:
+                        - radio [ref=e251]
+                        - generic [ref=e253]:
+                          - img
+                          - generic [ref=e254]: "YES"
+                    - radio "Did you start your first written answer below with the exact phrase we asked for in the job description? NO" [ref=e255] [cursor=pointer]:
+                      - generic [ref=e256]:
+                        - radio [ref=e257]
+                        - generic [ref=e259]:
+                          - img
+                          - generic [ref=e260]: "NO"
+                - generic [ref=e262]:
+                  - generic [ref=e263]:
+                    - strong [ref=e265]: "*"
+                    - strong [ref=e268]: Why Hugging Face, and where would you make the biggest difference in this role? Write it yourself, in your own words. We read every answer and we're after the specifics only you could give us, so generic or copy-pasted ones won't get far. 🤗
+                  - textbox "Why Hugging Face, and where would you make the biggest difference in this role? Write it yourself, in your own words. We read every answer and we're after the specifics only you could give us, so generic or copy-pasted ones won't get far. 🤗" [ref=e271]
+                - generic [ref=e273]:
+                  - generic [ref=e274]:
+                    - strong [ref=e276]: "*"
+                    - strong [ref=e279]: Tell us about something you've built on top of Transformers, or another of our tools, in the last few years. What was it, and what was the tricky part? Share a public link if you have one (GitHub, a demo, a write-up). If the work isn't public, just describe it well enough that we can dig into it together at the interview.
+                  - textbox "Tell us about something you've built on top of Transformers, or another of our tools, in the last few years. What was it, and what was the tricky part? Share a public link if you have one (GitHub, a demo, a write-up). If the work isn't public, just describe it well enough that we can dig into it together at the interview." [ref=e282]
+            - button "Submit application" [ref=e283] [cursor=pointer]
+    - contentinfo [ref=e284]:
+      - generic [ref=e286]:
+        - text: Hugging Face collects and processes personal data in accordance with applicable data protection laws.
+        - generic [ref=e287]:
+          - text: If you are a European Job Applicant see the
+          - link "privacy notice" [ref=e288] [cursor=pointer]:
+            - /url: https://apply.workable.com/huggingface/gdpr_policy?lng=en
+          - text: for further details.
+      - generic [ref=e289]:
+        - link "View website" [ref=e291] [cursor=pointer]:
+          - /url: https://huggingface.co/
+        - generic [ref=e292]:
+          - link "View all jobs" [ref=e293] [cursor=pointer]:
+            - /url: /huggingface/
+          - link "Help" [ref=e294] [cursor=pointer]:
+            - /url: https://jobseekers.workable.com/hc/en
+            - text: Help
+            - img [ref=e295]
+      - generic [ref=e297]:
+        - link "Accessibility" [ref=e299] [cursor=pointer]:
+          - /url: https://workable.com/web-accessibility-statement
+          - text: Accessibility
+          - img [ref=e300]
+        - button "Cookie settings" [ref=e303] [cursor=pointer]
+        - generic [ref=e304]:
+          - text: Powered by
+          - link "Workable" [ref=e305] [cursor=pointer]:
+            - /url: https://jobs.workable.com/?utm_campaign=careers_page&utm_content=careers_page&utm_medium=feature&utm_source=careers_page
+  - iframe

@@ -7,8 +7,8 @@ candidate:
   phone: "+1 (551) 263-5436"
   location: "New York, NY"
   linkedin: "linkedin.com/in/saumya-singh"
-  portfolio_url: ""       # add your portfolio URL when ready
-  github: ""              # add your GitHub URL when ready
+  portfolio_url: "https://saumyasinghz.github.io/"       # add your portfolio URL when ready
+  github: "https://github.com/saumyasinghz"              # add your GitHub URL when ready
 
 target_roles:
   primary:

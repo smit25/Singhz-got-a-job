@@ -269,9 +269,7 @@ Present to user in a single block:
 
 ### Gap handling options
 
-**If user says "generate"**: Draft answers from `cv.md` + report context, then show for review before accepting.
-
-**For company-specific narrative questions**: Always generate a draft from the report (Block A TL;DR + Block B proof points + Block F STAR stories). User reviews before accepting.
+**Auto-draft company essays — never wait for "generate"**: For every `needs_input` company-specific narrative field (cover letter, "why us", STAR questions), immediately draft an answer from `cv.md` + report context (Block A TL;DR + Block B proof points + Block F STAR stories). Present the draft inline in the gap block — the user reviews it alongside the other gaps in one pass, not a separate round-trip.
 
 **If a field is truly unanswerable** (e.g., "current employer's name" when freelancing): ask user directly.
 
@@ -303,11 +301,10 @@ Filling form: {Company} — {Role}  ({N} of {total})
 
 **Ashby / Greenhouse / Lever / Workable:**
 1. `browser_navigate` to application URL
-2. `browser_snapshot` to confirm form is visible
-3. For each field, `browser_type` or `browser_select` using the form_selector
-4. For file uploads: `browser_upload` the PDF path from `output/`
-5. `browser_snapshot` to confirm fields are filled
-6. Stop at Submit/Apply button — DO NOT click
+2. `browser_snapshot` to read the form (one snapshot only)
+3. **Bulk-fill all text fields in one `browser_evaluate` call** (see Bulk-fill below) — covers textboxes and textareas
+4. Handle the remaining fields individually: file upload → `browser_file_upload`; custom comboboxes → `browser_click` then `browser_click` on the option (no intermediate snapshot unless first click fails); radio buttons → `browser_click`
+5. Stop at Submit/Apply button — DO NOT click
 
 **Workday (multi-step wizard):**
 1. Navigate to posting, click "Apply"
@@ -327,6 +324,44 @@ Filling form: {Company} — {Role}  ({N} of {total})
 **If Playwright is not available:**
 - Generate a formatted "fill card" for each job — a clean document with all field labels and answers the user can paste manually
 - Save to `output/{report_num}-fill-card.md`
+
+### Bulk-fill via browser_evaluate (REQUIRED for text fields)
+
+Instead of one `browser_type` / `browser_fill_form` call per field, fill **all text inputs and textareas in a single `browser_evaluate`**. This is mandatory for Ashby / Greenhouse / Lever / Workable — it cuts Phase 3 tool calls from ~10 down to ~3.
+
+React/Vue forms require triggering the native input setter + a change event so the framework registers the value:
+
+```js
+function setNative(el, value) {
+  const proto = el.tagName === 'TEXTAREA'
+    ? window.HTMLTextAreaElement.prototype
+    : window.HTMLInputElement.prototype;
+  const setter = Object.getOwnPropertyDescriptor(proto, 'value').set;
+  setter.call(el, value);
+  el.dispatchEvent(new Event('input', { bubbles: true }));
+  el.dispatchEvent(new Event('change', { bubbles: true }));
+}
+
+// Example — adapt selectors and values per form:
+const fields = [
+  ['[aria-label="First name"]',    'Saumya'],
+  ['[aria-label="Last name"]',     'Singh'],
+  ['[aria-label="Email"]',         'saumya.singh.dsc@gmail.com'],
+  ['[aria-label="Github profile"]','https://github.com/saumyasinghz'],
+  ['[aria-label="Linkedin"]',      'https://linkedin.com/in/saumya-singh'],
+  ['[aria-label="Cover letter"]',  'GPU-poor and proud of it...\n\n...'],
+  ['[aria-label="Expected salary"]','$120K-$150K base (USD), flexible on equity'],
+  // ...add remaining text fields
+];
+fields.forEach(([selector, value]) => {
+  const el = document.querySelector(selector);
+  if (el) setNative(el, value);
+});
+```
+
+**After the evaluate call**: handle file upload, custom dropdowns, and radio buttons individually — those cannot be set via JS alone.
+
+**Do NOT take a snapshot to confirm text fills succeeded** — trust the evaluate result unless there is an error.
 
 ### Upload handling
 
@@ -350,7 +385,7 @@ If the form has a resume upload field:
 
 ## Phase 4 — Final Review
 
-After filling each form, show the user a snapshot and a structured summary:
+After filling each form, show the user a **text summary only** (no screenshot, no snapshot):
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
