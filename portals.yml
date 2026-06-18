@@ -1,0 +1,423 @@
+# Portal Scanner Configuration
+# Used by /singhz-got-a-job scan to discover new job listings automatically.
+#
+# This file is PORTAL-FIRST: it searches across job boards and ATS platforms
+# broadly — not by company. Add the role keywords that match YOUR target roles
+# in title_filter.positive, and the scanner will find matching jobs everywhere.
+#
+# TARGET: US-based roles only (on-site, hybrid, or remote within the United States).
+#
+# HOW TO CUSTOMIZE:
+#   1. Edit title_filter.positive — add keywords matching YOUR target roles
+#   2. Edit title_filter.negative — exclude irrelevant roles
+#   3. Edit location_filter — US geo signals (used by scan.mjs + agent scan)
+#   4. Toggle search_queries on/off with enabled: true/false
+#   5. Add new search_queries for any portal not already covered
+
+# US location suffix appended to WebSearch queries (see search_queries)
+us_location_query: '"United States" OR USA OR "US only" OR "US remote" OR "remote US"'
+
+# ─────────────────────────────────────────────────────────────────────────────
+# TITLE FILTER
+# At least 1 positive must match AND 0 negatives must match (case-insensitive).
+# These keywords filter job titles returned by every search query below.
+# ─────────────────────────────────────────────────────────────────────────────
+
+title_filter:
+  positive:
+    # AI/ML, data science, and closely related roles only
+
+    # Core ML / AI roles
+    - "Machine Learning Engineer"
+    - "ML Engineer"
+    - "Data Scientist"
+    - "AI Engineer"
+    - "Applied Scientist"
+    - "Research Scientist"
+    - "ML Research"
+    - "Applied ML"
+    - "Applied AI"
+
+    # Data / ML-adjacent
+    - "Data Engineer"
+    - "Analytics Engineer"
+    - "Research Engineer"
+
+    # Hybrid ML + software engineering titles
+    - "Machine Learning Software Engineer"
+    - "ML Software Engineer"
+    - "AI Software Engineer"
+    - "Software Engineer, Machine Learning"
+    - "Software Engineer, ML"
+    - "Software Engineer - Machine Learning"
+    - "Software Engineer - ML"
+    - "Software Engineer, AI"
+    - "Software Engineer - AI"
+    - "Machine Learning Software Developer"
+    - "ML Software Developer"
+    - "AI Software Developer"
+    - "Machine Learning Backend Engineer"
+    - "ML Backend Engineer"
+    - "AI Backend Engineer"
+    - "Machine Learning Platform Engineer"
+    - "ML Platform Engineer"
+    - "AI Platform Engineer"
+    - "Machine Learning Infrastructure Engineer"
+    - "ML Infrastructure Engineer"
+    - "Machine Learning Systems Engineer"
+    - "ML Systems Engineer"
+    - "AI Systems Engineer"
+    - "Software Engineer, Generative AI"
+    - "Software Engineer, LLM"
+
+    # Generative AI / LLM
+    - "LLM"
+    - "Generative AI"
+    - "GenAI"
+    - "NLP"
+    - "Foundation Model"
+
+    # Specific skill matches from CV
+    - "Synthetic Data"
+    - "MLOps"
+    - "Deep Learning"
+    - "Computer Vision"
+    - "RAG"
+    - "AI Research"
+
+    # Broader catches (still AI/ML scoped)
+    - "Machine Learning"
+    - "Artificial Intelligence"
+
+  negative:
+    # Roles with no ML angle. Hybrid eng titles (e.g. "SWE, Machine Learning") are
+    # allowed: they must match a positive keyword and are NOT blocked here.
+    - "Product Manager"
+    - "Program Manager"
+    - "Project Manager"
+    - "Technical Program"
+    - "TPM"
+    - "Product Owner"
+    - "Scrum Master"
+    - "Business Analyst"
+    - "Product Marketing"
+    - "Product Designer"
+    - "UX Designer"
+    - "UI Designer"
+    - "Sales Engineer"
+    - "GTM"
+    - "RevOps"
+    - "DevRel"
+    - "Developer Advocate"
+    - "QA Engineer"
+    - "Test Engineer"
+    - "Security Engineer"
+    - "Account Executive"
+    - "Customer Success"
+    - "Recruiter"
+    - "Human Resources"
+    - "Marketing Manager"
+    - "Business Development"
+    - "Operations Manager"
+    - "Office Manager"
+    - "Legal Counsel"
+    - "Finance Manager"
+    - "Intern"
+    - "Internship"
+    - "Frontend"
+    - "iOS"
+    - "Android"
+    - "PHP"
+    - "Ruby"
+    - "Embedded"
+    - "Firmware"
+    - "FPGA"
+    - "Blockchain"
+    - "Web3"
+    - "Crypto"
+    - "SAP "
+    - "Mainframe"
+    - "COBOL"
+    - "Salesforce Admin"
+    # Note: do not add "DevOps" — substring of "MLOps"
+    - "Site Reliability"
+    - "SRE"
+
+  seniority_boost:
+    # Preferred seniority signals (not required to match)
+    - "Founding"
+    - "New Grad"
+    - "Entry Level"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# LOCATION FILTER
+# Used by scan.mjs (API results) and /singhz-got-a-job scan agent after title filter.
+# Rejects listings with an explicit non-US location; keeps US signals and
+# unknown/ambiguous locations (e.g. bare "Remote") when allow_unknown is true.
+# ─────────────────────────────────────────────────────────────────────────────
+
+location_filter:
+  allow_unknown: true
+  positive:
+    - "United States"
+    - "USA"
+    - "U.S."
+    - "US only"
+    - "US-only"
+    - "US based"
+    - "US-based"
+    - "US remote"
+    - "remote US"
+    - "remote (US)"
+    - "remote - US"
+    - "remote, US"
+    - "anywhere in the US"
+    - "within the US"
+  negative:
+    - "Europe"
+    - "EMEA"
+    - "United Kingdom"
+    - "UK only"
+    - "Germany"
+    - "France"
+    - "Netherlands"
+    - "Spain"
+    - "Italy"
+    - "Poland"
+    - "Portugal"
+    - "Ireland"
+    - "Switzerland"
+    - "Sweden"
+    - "Canada"
+    - "Mexico"
+    - "Latin America"
+    - "LATAM"
+    - "India"
+    - "APAC"
+    - "Singapore"
+    - "Australia"
+    - "Japan"
+    - "China"
+    - "Israel"
+    - "Dubai"
+    - "UAE"
+    - "Brazil"
+    - "Remote - Europe"
+    - "Remote - UK"
+    - "Remote - EMEA"
+    - "Remote - Canada"
+    - "Remote - India"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SEARCH QUERIES
+# Each entry runs a WebSearch. Use site: to target a specific portal.
+# All queries: AI/ML roles, US-based only (see us_location_query).
+# ─────────────────────────────────────────────────────────────────────────────
+
+search_queries:
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # ATS PLATFORMS
+  # ───────────────────────────────────────────────────────────────────────────
+
+  - name: Greenhouse — AI / ML roles
+    query: 'site:boards.greenhouse.io OR site:job-boards.greenhouse.io "Machine Learning Engineer" OR "ML Engineer" OR "Data Scientist" OR "AI Engineer" OR "Applied Scientist" OR "Research Scientist" OR "LLM" OR "NLP" OR "Computer Vision" OR "MLOps" "United States" OR USA OR "US only" OR "US remote"'
+    enabled: true
+
+  - name: Greenhouse — ML software / hybrid roles
+    query: 'site:boards.greenhouse.io OR site:job-boards.greenhouse.io "Machine Learning Software Engineer" OR "ML Software Engineer" OR "AI Software Engineer" OR "ML Platform Engineer" OR "ML Systems Engineer" "United States" OR USA OR "US only" OR "US remote"'
+    enabled: true
+
+  - name: Ashby — AI / ML roles
+    query: 'site:jobs.ashbyhq.com "Machine Learning Engineer" OR "ML Engineer" OR "Data Scientist" OR "AI Engineer" OR "Applied Scientist" OR "LLM" OR "Generative AI" OR "NLP" OR "Computer Vision" "United States" OR USA OR "US only" OR "US remote"'
+    enabled: true
+
+  - name: Lever — AI / ML roles
+    query: 'site:jobs.lever.co "Machine Learning Engineer" OR "ML Engineer" OR "Data Scientist" OR "AI Engineer" OR "Applied Scientist" OR "Research Scientist" OR "LLM" OR "Deep Learning" "United States" OR USA OR "US only" OR "US remote"'
+    enabled: true
+
+  - name: Workable — AI / ML roles
+    query: 'site:apply.workable.com "Machine Learning Engineer" OR "Data Scientist" OR "AI Engineer" OR "Applied Scientist" OR "Research Scientist" OR "Data Engineer" "United States" OR USA OR "US remote" -junior'
+    enabled: true
+
+  - name: Workday — AI / ML roles
+    query: 'site:myworkdayjobs.com "Machine Learning Engineer" OR "ML Engineer" OR "AI Engineer" OR "Data Scientist" OR "Applied Scientist" OR "Research Scientist" ("United States" OR USA OR "San Francisco" OR "New York" OR "Seattle" OR "Austin")'
+    enabled: true
+
+  - name: SmartRecruiters — AI / ML roles
+    query: 'site:jobs.smartrecruiters.com "Machine Learning Engineer" OR "Data Scientist" OR "AI Engineer" OR "Applied Scientist" OR "Research Scientist" OR "Data Engineer" "United States" OR USA OR "US remote" -junior'
+    enabled: true
+
+  - name: Rippling Jobs — AI / ML roles
+    query: 'site:jobs.rippling.com "Machine Learning Engineer" OR "ML Engineer" OR "Data Scientist" OR "AI Engineer" OR "Applied Scientist" OR "LLM" "United States" OR USA OR "US only" OR "US remote"'
+    enabled: true
+
+  - name: BambooHR — AI / ML roles
+    query: 'site:bamboohr.com/jobs "Machine Learning Engineer" OR "Data Scientist" OR "AI Engineer" OR "Applied Scientist" OR "Research Scientist" "United States" OR USA OR "US only" OR "US remote"'
+    enabled: true
+
+  - name: JazzHR — AI / ML roles
+    query: 'site:app.jazz.co "Machine Learning Engineer" OR "Data Scientist" OR "AI Engineer" OR "Applied Scientist" OR "LLM" "United States" OR USA senior'
+    enabled: true
+
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # GENERAL JOB BOARDS
+  # ───────────────────────────────────────────────────────────────────────────
+
+  - name: LinkedIn — AI / ML roles
+    query: 'site:linkedin.com/jobs "Machine Learning Engineer" OR "ML Engineer" OR "Data Scientist" OR "AI Engineer" OR "Applied Scientist" OR "Research Scientist" OR "LLM" OR "NLP" "United States" OR USA OR "US only" OR "US remote"'
+    enabled: true
+
+  - name: LinkedIn — ML software / hybrid roles
+    query: 'site:linkedin.com/jobs "Machine Learning Software Engineer" OR "ML Software Engineer" OR "AI Software Engineer" OR "Software Engineer" "Machine Learning" OR "ML Platform Engineer" OR "ML Systems Engineer" "United States" OR USA OR "US only" OR "US remote"'
+    enabled: true
+
+  - name: Indeed — AI / ML roles
+    query: 'site:indeed.com "Machine Learning Engineer" OR "ML Engineer" OR "Data Scientist" OR "AI Engineer" OR "Applied Scientist" OR "Research Scientist" "United States" OR USA -junior -intern'
+    enabled: true
+
+  - name: Indeed — ML software / hybrid roles
+    query: 'site:indeed.com "Machine Learning Software Engineer" OR "ML Software Engineer" OR "AI Software Engineer" OR "ML Platform Engineer" OR "ML Backend Engineer" "United States" OR USA -junior -intern'
+    enabled: true
+
+  - name: Glassdoor — AI / ML roles
+    query: 'site:glassdoor.com/job-listing "Machine Learning Engineer" OR "Data Scientist" OR "AI Engineer" OR "Applied Scientist" OR "Research Scientist" OR "LLM" "United States" OR USA OR "US only" OR "US remote"'
+    enabled: true
+
+  - name: Wellfound — AI / ML (startups)
+    query: 'site:wellfound.com "Machine Learning Engineer" OR "AI Engineer" OR "Data Scientist" OR "Applied Scientist" OR "LLM" OR "Generative AI" "United States" OR USA OR "US only" OR "US remote"'
+    enabled: true
+
+  - name: YC Work at a Startup — AI / ML roles
+    query: 'site:workatastartup.com "Machine Learning Engineer" OR "AI Engineer" OR "Data Scientist" OR "Applied Scientist" OR "Research Scientist" OR "LLM" "United States" OR USA OR "US only" OR "US remote"'
+    enabled: true
+
+  - name: HN Who's Hiring — AI / ML roles
+    query: 'site:news.ycombinator.com "who is hiring" "Machine Learning Engineer" OR "AI Engineer" OR "Data Scientist" OR "Applied Scientist" OR "Research Scientist" OR "LLM" "United States" OR USA OR "US only" OR "US remote"'
+    enabled: true
+
+  - name: Built In — AI / ML (US)
+    query: 'site:builtin.com "Machine Learning Engineer" OR "AI Engineer" OR "Data Scientist" OR "Applied Scientist" OR "Research Scientist" OR "LLM" ("United States" OR "San Francisco" OR "New York" OR "Seattle" OR "Austin")'
+    enabled: true
+
+  - name: Dice — AI / ML roles
+    query: 'site:dice.com "Machine Learning Engineer" OR "AI Engineer" OR "Data Scientist" OR "Applied Scientist" OR "Research Scientist" OR "Data Engineer" "United States" OR USA -junior'
+    enabled: true
+
+  - name: Simplify — AI / ML roles
+    query: 'site:simplify.jobs "Machine Learning Engineer" OR "AI Engineer" OR "Data Scientist" OR "Applied Scientist" OR "Research Scientist" OR "LLM" "United States" OR USA OR "US only" OR "US remote"'
+    enabled: true
+
+  - name: Levels.fyi — AI / ML roles
+    query: 'site:levels.fyi/jobs "Machine Learning Engineer" OR "AI Engineer" OR "Data Scientist" OR "Applied Scientist" OR "Research Scientist" OR "LLM" "United States" OR USA OR "US only" OR "US remote"'
+    enabled: true
+
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # REMOTE-FOCUSED JOB BOARDS
+  # ───────────────────────────────────────────────────────────────────────────
+
+  - name: Remotive — AI / ML / Data (US)
+    query: 'site:remotive.com "Machine Learning Engineer" OR "AI Engineer" OR "Data Scientist" OR "Applied Scientist" OR "Research Scientist" OR "Data Engineer" USA OR "United States"'
+    enabled: true
+
+  - name: WeWorkRemotely — AI / ML roles (US)
+    query: 'site:weworkremotely.com "Machine Learning Engineer" OR "AI Engineer" OR "Data Scientist" OR "Applied Scientist" OR "Research Scientist" OR "LLM" USA OR "United States"'
+    enabled: true
+
+  - name: Working Nomads — AI / ML roles (US)
+    query: 'site:workingnomads.com "Machine Learning Engineer" OR "AI Engineer" OR "Data Scientist" OR "Applied Scientist" OR "Research Scientist" USA OR "United States"'
+    enabled: true
+
+  - name: RemoteOK — AI / ML roles (US)
+    query: 'site:remoteok.com "Machine Learning Engineer" OR "AI Engineer" OR "Data Scientist" OR "Applied Scientist" OR "Research Scientist" OR "LLM" USA OR "United States"'
+    enabled: true
+
+  - name: Himalayas — AI / ML roles (US)
+    query: 'site:himalayas.app "Machine Learning Engineer" OR "AI Engineer" OR "Data Scientist" OR "Applied Scientist" OR "Research Scientist" OR "Data Engineer" USA OR "United States"'
+    enabled: true
+
+  - name: EU Remote Jobs — AI / ML roles
+    query: 'site:euremotejobs.com "Machine Learning Engineer" OR "AI Engineer" OR "Data Scientist"'
+    enabled: false
+    notes: "Disabled — EU-focused, not US targeting"
+
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # SPECIALIZED / NICHE JOB BOARDS
+  # ───────────────────────────────────────────────────────────────────────────
+
+  - name: ai-jobs.net — AI / ML roles
+    query: 'site:ai-jobs.net "Machine Learning" OR "Data Scientist" OR "AI Engineer" OR "ML Engineer" OR "Research Scientist" OR "Applied Scientist" "United States" OR USA OR "US only" OR "US remote"'
+    enabled: true
+
+  - name: TrueUp — AI / ML roles
+    query: 'site:trueup.io "Machine Learning Engineer" OR "AI Engineer" OR "Data Scientist" OR "Applied Scientist" OR "Research Scientist" OR "LLM" "United States" OR USA OR "US only" OR "US remote"'
+    enabled: true
+
+  - name: Remote Rocketship — AI / ML roles
+    query: 'site:remoterocketship.com "Machine Learning Engineer" OR "AI Engineer" OR "Data Scientist" OR "Applied Scientist" OR "Research Scientist" "United States" OR USA OR "US only" OR "US remote"'
+    enabled: true
+
+  - name: Welcome to the Jungle — AI / ML roles
+    query: 'site:welcometothejungle.com "Machine Learning Engineer" OR "AI Engineer" OR "Data Scientist" OR "Applied Scientist" OR "Research Scientist" "United States" OR USA'
+    enabled: false
+    notes: "Disabled — primarily EU/FR market"
+
+  - name: EU Data Jobs — Data / AI / ML
+    query: 'site:eudatajobs.com "Data Engineer" OR "ML Engineer" OR "Machine Learning Engineer" OR "Data Scientist" OR "AI Engineer"'
+    enabled: false
+    notes: "Disabled — Europe-focused, not US targeting"
+
+  - name: DevRelX Jobs — DevRel / DX roles
+    query: 'site:devrelx.com/jobs remote OR Europe OR "United States"'
+    enabled: false
+    notes: "Disabled — not AI/ML targeting"
+
+  - name: DevRel Job Board
+    query: 'site:devreljob.com remote OR Europe OR "United States"'
+    enabled: false
+    notes: "Disabled — not AI/ML targeting"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# TRACKED COMPANIES (optional)
+#
+# Add specific companies here to scan them directly via their ATS API.
+# This is faster and more reliable than WebSearch — results are real-time,
+# not Google-cached.
+#
+# scan.mjs uses this section for zero-token API scanning (Greenhouse, Ashby, Lever).
+# The /singhz-got-a-job scan Claude agent also uses it for Playwright-based scanning.
+#
+# HOW TO ADD A COMPANY:
+#
+# Greenhouse company:
+#   - name: Company Name
+#     careers_url: https://job-boards.greenhouse.io/{slug}
+#     api: https://boards-api.greenhouse.io/v1/boards/{slug}/jobs
+#     enabled: true
+#
+# Ashby company:
+#   - name: Company Name
+#     careers_url: https://jobs.ashbyhq.com/{slug}
+#     enabled: true
+#
+# Lever company:
+#   - name: Company Name
+#     careers_url: https://jobs.lever.co/{slug}
+#     enabled: true
+#
+# Any company (Playwright scraping):
+#   - name: Company Name
+#     careers_url: https://company.com/careers
+#     scan_method: playwright
+#     enabled: true
+#
+# Leave this list empty to rely purely on search_queries above.
+# ─────────────────────────────────────────────────────────────────────────────
+
+tracked_companies: []

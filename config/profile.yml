@@ -1,0 +1,72 @@
+# Singhz Got a Job Profile Configuration
+# This is the single source of truth for your personal data across all modes.
+
+candidate:
+  full_name: "Saumya Singh"
+  email: "saumya.singh.dsc@gmail.com"
+  phone: "+1 (551) 263-5436"
+  location: "New York, NY"
+  linkedin: "linkedin.com/in/saumya-singh"
+  portfolio_url: "https://saumyasinghz.github.io/"       # add your portfolio URL when ready
+  github: "https://github.com/saumyasinghz"              # add your GitHub URL when ready
+
+target_roles:
+  primary:
+    - "Machine Learning Engineer"
+    - "Data Scientist"
+    - "AI Engineer"
+    - "Applied Scientist"
+    - "ML Research Engineer"
+    - "AI Research Scientist"
+  archetypes:
+    - name: "Machine Learning Engineer"
+      level: "Entry/Mid"
+      fit: "primary"
+    - name: "Data Scientist"
+      level: "Entry/Mid"
+      fit: "primary"
+    - name: "AI Engineer"
+      level: "Entry/Mid"
+      fit: "primary"
+    - name: "Applied Scientist"
+      level: "Entry/Mid"
+      fit: "primary"
+    - name: "ML Research Engineer"
+      level: "Entry/Mid"
+      fit: "secondary"
+
+narrative:
+  headline: "ML Engineer with 3+ years in production — synthetic data, GANs, agentic RAG, and published research"
+  exit_story: "3 years as a Data Scientist at Société Générale building privacy-preserving ML at scale. Now finishing MS CS at NYU (May 2026) and targeting full-time MLE/DS roles where I can ship production AI systems."
+  superpowers:
+    - "Synthetic data generation at scale (30M+ records, GAN + Differential Privacy)"
+    - "End-to-end ML pipelines from research to production PyPI packages"
+    - "Agentic and RAG system design (LangChain, LLMs, AWS)"
+    - "Published researcher — arXiv 2023, IEEE 2024"
+    - "Multilingual background — strong India/US cross-market experience"
+  proof_points:
+    - name: "Synthetic Data Engine at Anote AI"
+      hero_metric: "35% dataset quality improvement, shipped as PyPI package"
+    - name: "Privacy-preserving GANs at Société Générale"
+      hero_metric: "30M+ synthetic records, 60% faster data acquisition"
+    - name: "Document Forgery Detection at Société Générale"
+      hero_metric: "80% reduction in manual review volume"
+    - name: "Agentic RAG Trade Compliance Copilot"
+      hero_metric: "85% accuracy on 1,000+ EXIM documents, AWS-deployed"
+    - name: "IEEE Publication — Imputation Methods"
+      hero_metric: "Gaussian Copula improves KS scores by 12%, Kendall's W=0.965"
+
+compensation:
+  target_range: "$120K-$150K"
+  currency: "USD"
+  minimum: "$110K"
+  location_flexibility: "Hybrid or Remote preferred; open to on-site in NYC"
+
+location:
+  country: "United States"
+  city: "New York"
+  timezone: "EST"
+  visa_status: "F-1 OPT (available May 2026)"
+
+cv:
+  output_format: "html"

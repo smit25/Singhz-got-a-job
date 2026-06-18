@@ -1,0 +1,133 @@
+# Form Answer Bank — your reusable application Q&A
+# Updated by batch-apply / apply when you answer new questions.
+# Edit manually anytime. See templates/form-answers.example.yml for format.
+
+answers:
+  - id: salary_expectation
+    scope: shared
+    match:
+      - salary
+      - compensation
+      - desired pay
+      - expected base
+      - pay range
+    answer: "$120K-$150K base (USD), flexible on equity"
+    updated: "2026-06-01"
+    source: profile
+
+  - id: visa_sponsorship
+    scope: shared
+    match:
+      - require sponsorship
+      - visa sponsorship
+      - need sponsorship
+      - will you now or in the future require
+    answer: "Yes — F-1 OPT available May 2026; will require H-1B sponsorship"
+    updated: "2026-06-01"
+    source: profile
+
+  - id: work_authorization
+    scope: shared
+    match:
+      - work authorization
+      - legally authorized to work
+      - eligible to work in the us
+      - authorized to work in the united states
+    answer: "Yes, with sponsorship (F-1 OPT May 2026)"
+    updated: "2026-06-01"
+    source: profile
+
+  - id: hear_about
+    scope: shared
+    match:
+      - how did you hear
+      - where did you hear
+      - referral source
+      - how did you find
+    answer: "Company careers page / job board"
+    updated: "2026-06-01"
+
+  - id: relocation
+    scope: shared
+    match:
+      - willing to relocate
+      - open to relocation
+      - relocate
+    answer: "Open to relocation; based in New York, NY"
+    updated: "2026-06-01"
+
+  - id: remote_preference
+    scope: shared
+    match:
+      - remote
+      - work from home
+      - hybrid
+    answer: "Hybrid or remote preferred; open to on-site in NYC"
+    updated: "2026-06-01"
+    source: profile
+
+  - id: production_ml_experience
+    scope: shared
+    match:
+      - experience building and deploying machine learning
+      - production ml experience
+      - building and deploying ml models
+      - ml models in production
+      - operationalizing ml
+    answer: "Building production ML means shipping systems that hold up under real-world conditions — not just ones that score well on held-out test sets. My experience spans three companies across different domains.\n\nAt Anote AI, I built a multimodal synthetic data engine and deployed it as a PyPI package — handling API design, versioning, and dependency management so external teams could integrate it without friction.\n\nAt Société Générale, I operated at a different scale: privacy-preserving GANs generating 30M+ synthetic financial records across 10+ compliance use cases. I built Spark-based pipelines to handle throughput and deployed a document forgery detection system (CNN + OCR) that reduced manual review volume by 80%.\n\nA trade compliance RAG copilot added another dimension — retrieval pipelines that stay accurate as underlying documents change. Deployed on AWS with Docker and automated update workflows, it maintained 85% accuracy across 1,000+ regulatory documents.\n\nThe through-line: production ML requires treating data quality, monitoring, and inference performance as first-class concerns from day one. At Samsung, that meant quantizing a GAN to 208MB with 1.2-second inference latency for Android edge deployment — which required quantization-aware thinking at the architecture stage, not as an afterthought."
+    updated: "2026-06-01"
+
+  - id: recent_ml_papers
+    scope: shared
+    match:
+      - recent ml research papers
+      - papers you have read
+      - research papers found interesting
+      - ml papers
+      - academic papers on machine learning
+    answer: "Three papers I've found particularly relevant recently:\n\n\"Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection\" (Asai et al., 2023) — The critique step (the model deciding when retrieval actually helps) maps directly to problems I hit building production RAG pipelines. Most RAG systems retrieve indiscriminately; Self-RAG's selective retrieval is a more honest model of when retrieval adds value.\n\n\"DataDreamer: A Tool for Synthetic Data Generation and Reproducible LLM Workflows\" (Patel et al., 2024) — Close to work I've done on synthetic data engines. The reproducibility framing resonated — synthetic data pipelines are hard to reproduce across teams, and I've felt that pain firsthand.\n\n\"Matryoshka Representation Learning\" (Kusupati et al., 2022) — Embedding models that support variable-length representations at inference time. Practically useful for vector search at scale — larger embeddings when you need precision, smaller when you need throughput."
+    updated: "2026-06-01"
+
+  - id: industry_advances
+    scope: shared
+    match:
+      - recent products features or models
+      - ml industry caught your attention
+      - advances in machine learning industry
+      - recent developments in ml
+      - recent ai industry advances
+    answer: "A few things have stood out recently:\n\nReasoning models (DeepSeek R1, OpenAI o1/o3) — What's interesting isn't the benchmark numbers but the architectural implication: chain-of-thought at inference time lets you trade compute for correctness on the fly. For retrieval-augmented systems, this changes how you think about when to retrieve vs. when to reason from context.\n\nThe long-context vs. RAG debate — Models with 1M+ token context windows reopen the question of whether retrieval is necessary, or whether it's a workaround for context limits. My take: retrieval is still better for knowledge that changes frequently and for source attribution. But the tradeoffs are genuinely different now.\n\nAdvances in embedding models — The gap between general-purpose and domain-specific embeddings has narrowed, but domain fine-tuned embeddings still win on specialized retrieval tasks. The Nomic and E5 families have been particularly practical for production use — strong performance without the latency of larger models."
+    updated: "2026-06-01"
+
+  - id: transformers_project_built
+    scope: shared
+    match:
+      - built on top of transformers
+      - something you've built using transformers
+      - built with hugging face tools
+      - project using transformers
+      - describe a project using transformers
+      - ml project you've built
+    answer: "The most directly relevant thing I've built is the synthetic data engine at Anote AI, where fine-tuned transformer models were the core component.\n\nThe setup: we needed high-quality labeled data for multimodal tasks, and available datasets were too small, too generic, or domain-mismatched. I built a pipeline that used transformer-based models to generate synthetic training examples, applied LLM-based correction loops to clean label inconsistencies, then fine-tuned task-specific transformers on the result. End-to-end: 18% performance improvement in low-resource scenarios — tasks with fewer than a few hundred real examples.\n\nThe tricky part was distribution shift. Synthetic data generated from a language model encodes that model's biases. If you fine-tune on it naively, you get a more confident version of the generator's mistakes. The fix was treating synthetic data as a warm-start, not a replacement: use it to establish a useful prior, then let a small number of real labeled examples correct the distribution. The self-supervised correction loops — YOLO for visual components, OpenAI for text — had the model identify its own label inconsistencies and flag them without human annotation.\n\nThe work shipped as a PyPI package. No public GitHub link yet (Anote keeps the repo internal), but I can walk through the package interface, correction loop architecture, and fine-tuning approach in full at interview.\n\nSeparately: my Trade Compliance RAG Copilot uses sentence-transformer embeddings to retrieve across 1,000+ EXIM regulatory documents. The interesting problem was stale embeddings — regulations change, and old embeddings silently return wrong results. I built an automated re-indexing pipeline on AWS that checks retrieval accuracy before promoting a new index to production."
+    updated: "2026-06-01"
+
+company_answers:
+  - company: "Hugging Face"
+    id: hf_cover_letter
+    match:
+      - cover letter
+      - why do you want to work in open-source
+      - why hugging face
+      - why do you want to work at hugging face
+    answer: "At Hugging Face, open-source isn't just a distribution model — it's a philosophy about who gets to build with AI. That's why I want to work here.\n\nMy path into ML has consistently pushed me toward making systems usable beyond my own team. At Anote AI, I built a multimodal synthetic data engine and shipped it as a PyPI package — not because it was required, but because the engineering decisions that make a library maintainable and composable are more interesting than the ones that keep code private. I wrote it with a clean external API surface, handled versioning, and documented it for users I'd never meet.\n\nThat pattern shows up in my research too. My IEEE paper on imputation methods wasn't just about proving Gaussian Copula was the better algorithm — it was about building a reproducible benchmark that other teams could run on their own data. Open methodology is how you find out whether your results actually hold.\n\nI use the `transformers` library regularly: fine-tuning on low-resource domains at Anote AI, building retrieval pipelines, evaluating embedding quality. I want to contribute to these problems directly, not just consume the library's work. Specifically, I'm interested in contributing to evaluation tooling and synthetic data generation utilities — areas where I have production experience and where I see real gaps in the ecosystem.\n\nI'm finishing my MS CS at NYU in May 2026 and can start immediately. I'd bring production instinct from shipping ML systems that external teams rely on, a focus on data quality (self-supervised correction loops, 35% quality improvement), and the habit of publishing methodology openly."
+    updated: "2026-06-01"
+
+  - company: "Hugging Face"
+    id: hf_why_biggest_difference
+    match:
+      - why hugging face and where would you make the biggest difference
+      - where would you make the biggest difference
+      - biggest difference in this role
+      - why this role at hugging face
+    answer: "The place I'd make the biggest difference is in the gap between research-quality demos and production-usable tooling — particularly around synthetic data generation and low-resource fine-tuning.\n\nAt Anote AI, I built a multimodal synthetic data engine and shipped it as a PyPI package. The design constraint was that other teams would use it without me explaining it — so the API had to be clean, the documentation had to stand alone, and the edge cases had to be handled. That instinct — writing ML code for the person who will import it, not the person who wrote it — is what I'd bring to the Transformers library directly.\n\nThe specific area where I see the biggest opportunity: synthetic data utilities in the Datasets ecosystem. There's solid tooling for loading and processing existing datasets, but the path from \"I need structured synthetic data for fine-tuning\" to something I can pip install is rougher than it should be. I've built in this space from both ends — generative models (GANs with differential privacy, 30M+ records at Société Générale) and the application side (fine-tuning on synthetic data, 18% uplift in low-resource scenarios at Anote AI). I can contribute production-tested patterns, not just research code.\n\nI'd also focus on evaluation tooling. At Société Générale I benchmarked 20+ model architectures using SHAP and LIME — not to publish, but to establish internal standards teams could act on. The Evaluate library has the right bones; the contributor path for domain-specific metrics is still steep. Flattening that curve multiplies the value of everything else HF ships.\n\nShort version: I'd work on the parts of the ecosystem that turn \"this is possible\" into \"this is usable.\" That's where my production background maps most directly."
+    updated: "2026-06-01"
